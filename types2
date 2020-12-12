@@ -1,0 +1,502 @@
+Script started on 2020-12-12 11:12:56-05:00
+]777;notify;Command completed;git status]0;student@workstation:~/DO380-apps]7;file://workstation.lab.example.com/home/student/DO380-apps[student@workstation DO380-apps]$ podman login quay.io
+Username: atulsingh0
+Password: 
+Login Succeeded!
+]777;notify;Command completed;podman login quay.io]0;student@workstation:~/DO380-apps]7;file://workstation.lab.example.com/home/student/DO380-apps[student@workstation DO380-apps]$ skopeo copy \
+> docker://quay.io/redhattraining/versioned-hello:v1.0 \
+> docker://quay.io/atulsingh0/versioned-hello:latest
+Getting image source signatures
+Copying blob 97c88a299bf0 [--------------------------------------] 0b / 3.8MiB
+Copying blob a55bf3031ff6 [--------------------------------------] 0b / 1.6KiB
+Copying blob 9dd2a0b0492d [--------------------------------------] 0b / 33.9MiB
+Copying blob 1dbcab28ce46 [--------------------------------------] 0b / 48b
+Copying blob 1dbcab28ce46 [--------------------------------------] 0b / 48b
+Copying blob 1dbcab28ce46 [--------------------------------------] 0b / 48b
+[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KCopying blob 97c88a299bf0 [--------------------------------------] 0b / 3.8MiB
+Copying blob a55bf3031ff6 [--------------------------------------] 0b / 1.6KiB
+Copying blob 9dd2a0b0492d [--------------------------------------] 0b / 33.9MiB
+Copying blob 1dbcab28ce46 [--------------------------------------] 0b / 48b
+Copying blob 1dbcab28ce46 [--------------------------------------] 0b / 48b
+Copying blob 1dbcab28ce46 [--------------------------------------] 0b / 48b
+[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KCopying blob 97c88a299bf0 [--------------------------------------] 0b / 3.8MiB
+Copying blob a55bf3031ff6 [--------------------------------------] 0b / 1.6KiB
+Copying blob 9dd2a0b0492d [--------------------------------------] 0b / 33.9MiB
+Copying blob 1dbcab28ce46 [--------------------------------------] 0b / 48b
+Copying blob 1dbcab28ce46 [--------------------------------------] 0b / 48b
+Copying blob 1dbcab28ce46 [--------------------------------------] 0b / 48b
+[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KCopying blob 97c88a299bf0 [--------------------------------------] 0b / 3.8MiB
+Copying blob a55bf3031ff6 [--------------------------------------] 0b / 1.6KiB
+Copying blob 9dd2a0b0492d [--------------------------------------] 0b / 33.9MiB
+Copying blob 1dbcab28ce46 [--------------------------------------] 0b / 48b
+Copying blob 1dbcab28ce46 [--------------------------------------] 0b / 48b
+Copying blob 1dbcab28ce46 [--------------------------------------] 0b / 48b
+[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KCopying blob 97c88a299bf0 [--------------------------------------] 0b / 3.8MiB
+Copying blob a55bf3031ff6 [--------------------------------------] 0b / 1.6KiB
+Copying blob 9dd2a0b0492d [--------------------------------------] 0b / 33.9MiB
+Copying blob 1dbcab28ce46 [--------------------------------------] 0b / 48b
+Copying blob 1dbcab28ce46 [--------------------------------------] 0b / 48b
+Copying blob 1dbcab28ce46 [--------------------------------------] 0b / 48b
+[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KCopying blob 97c88a299bf0 [--------------------------------------] 0b / 3.8MiB
+Copying blob a55bf3031ff6 [--------------------------------------] 0b / 1.6KiB
+Copying blob 9dd2a0b0492d [--------------------------------------] 0b / 33.9MiB
+Copying blob 1dbcab28ce46 [--------------------------------------] 0b / 48b
+Copying blob 1dbcab28ce46 [--------------------------------------] 0b / 48b
+Copying blob 1dbcab28ce46 [--------------------------------------] 0b / 48b
+[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KCopying blob 97c88a299bf0 [--------------------------------------] 0b / 3.8MiB
+Copying blob a55bf3031ff6 [--------------------------------------] 0b / 1.6KiB
+Copying blob 9dd2a0b0492d [--------------------------------------] 0b / 33.9MiB
+Copying blob 1dbcab28ce46 [--------------------------------------] 0b / 48b
+Copying blob 1dbcab28ce46 [--------------------------------------] 0b / 48b
+Copying blob 1dbcab28ce46 [--------------------------------------] 0b / 48b
+[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KCopying blob 97c88a299bf0 [--------------------------------------] 0b / 3.8MiB
+Copying blob a55bf3031ff6 [--------------------------------------] 0b / 1.6KiB
+Copying blob 9dd2a0b0492d [--------------------------------------] 0b / 33.9MiB
+Copying blob 1dbcab28ce46 [--------------------------------------] 0b / 48b
+Copying blob 1dbcab28ce46 [--------------------------------------] 0b / 48b
+Copying blob 1dbcab28ce46 [--------------------------------------] 0b / 48b
+[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KCopying blob 97c88a299bf0 [--------------------------------------] 0b / 3.8MiB
+Copying blob a55bf3031ff6 [--------------------------------------] 0b / 1.6KiB
+Copying blob 9dd2a0b0492d [--------------------------------------] 0b / 33.9MiB
+Copying blob 1dbcab28ce46 [--------------------------------------] 0b / 48b
+Copying blob 1dbcab28ce46 [--------------------------------------] 0b / 48b
+Copying blob 1dbcab28ce46 [--------------------------------------] 0b / 48b
+[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KCopying blob 97c88a299bf0 [--------------------------------------] 0b / 3.8MiB
+Copying blob a55bf3031ff6 [--------------------------------------] 0b / 1.6KiB
+Copying blob 9dd2a0b0492d [--------------------------------------] 0b / 33.9MiB
+Copying blob 1dbcab28ce46 [--------------------------------------] 0b / 48b
+Copying blob 1dbcab28ce46 [--------------------------------------] 0b / 48b
+Copying blob 1dbcab28ce46 [--------------------------------------] 0b / 48b
+[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KCopying blob 97c88a299bf0 [--------------------------------------] 0b / 3.8MiB
+Copying blob a55bf3031ff6 [--------------------------------------] 0b / 1.6KiB
+Copying blob 9dd2a0b0492d [--------------------------------------] 0b / 33.9MiB
+Copying blob 1dbcab28ce46 [--------------------------------------] 0b / 48b
+Copying blob 1dbcab28ce46 [--------------------------------------] 0b / 48b
+Copying blob 1dbcab28ce46 [--------------------------------------] 0b / 48b
+[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KCopying blob 97c88a299bf0 [--------------------------------------] 0b / 3.8MiB
+Copying blob a55bf3031ff6 [--------------------------------------] 0b / 1.6KiB
+Copying blob 9dd2a0b0492d [--------------------------------------] 0b / 33.9MiB
+Copying blob 1dbcab28ce46 [--------------------------------------] 0b / 48b
+Copying blob 1dbcab28ce46 [--------------------------------------] 0b / 48b
+Copying blob 1dbcab28ce46 [--------------------------------------] 0b / 48b
+Copying blob 1dbcab28ce46 [--------------------------------------] 0b / 0b
+Copying blob 1dbcab28ce46 [--------------------------------------] 0b / 0b
+[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KCopying blob 97c88a299bf0 done
+Copying blob a55bf3031ff6 done
+Copying blob 9dd2a0b0492d done
+Copying blob 1dbcab28ce46 done
+Copying blob 1dbcab28ce46 done
+Copying blob 1dbcab28ce46 done
+Copying blob 1dbcab28ce46 skipped: already exists
+Copying blob 1dbcab28ce46 skipped: already exists
+[31mFATA[0m[0003] Error writing blob: Error initiating layer upload to /v2/atulsingh0/versioned-hello/blobs/uploads/ in quay.io: unauthorized: access to the requested resource is not authorized 
+]777;notify;Command completed;skopeo copy docker://quay.io/redhattraining/versioned-hello:v1.0 docker://quay.io/atulsingh0/versioned-hello:latest]0;student@workstation:~/DO380-apps]7;file://workstation.lab.example.com/home/student/DO380-apps[student@workstation DO380-apps]$ skopeo copy docker://quay.io/redhattraining/versioned-hello:v1..0 docker://quay.io/atulsingh0/versioned-hello:latest
+Getting image source signatures
+Copying blob 1dbcab28ce46 [--------------------------------------] 0b / 0b
+Copying blob 1dbcab28ce46 [--------------------------------------] 0b / 0b
+Copying blob 1dbcab28ce46 [--------------------------------------] 0b / 0b
+[1A[2K[1A[2K[1A[2KCopying blob 1dbcab28ce46 skipped: already exists
+Copying blob 1dbcab28ce46 skipped: already exists
+Copying blob 1dbcab28ce46 skipped: already exists
+[1A[2K[1A[2K[1A[2KCopying blob 1dbcab28ce46 skipped: already exists
+Copying blob 1dbcab28ce46 skipped: already exists
+Copying blob 1dbcab28ce46 skipped: already exists
+Copying blob 1dbcab28ce46 [--------------------------------------] 0b / 0b
+Copying blob 1dbcab28ce46 [--------------------------------------] 0b / 0b
+[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KCopying blob 1dbcab28ce46 skipped: already exists
+Copying blob 1dbcab28ce46 skipped: already exists
+Copying blob 1dbcab28ce46 skipped: already exists
+Copying blob 1dbcab28ce46 skipped: already exists
+Copying blob 1dbcab28ce46 skipped: already exists
+[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KCopying blob 1dbcab28ce46 skipped: already exists
+Copying blob 1dbcab28ce46 skipped: already exists
+Copying blob 1dbcab28ce46 skipped: already exists
+Copying blob 1dbcab28ce46 skipped: already exists
+Copying blob 1dbcab28ce46 skipped: already exists
+[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KCopying blob 1dbcab28ce46 skipped: already exists
+Copying blob 1dbcab28ce46 skipped: already exists
+Copying blob 1dbcab28ce46 skipped: already exists
+Copying blob 1dbcab28ce46 skipped: already exists
+Copying blob 1dbcab28ce46 skipped: already exists
+[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KCopying blob 1dbcab28ce46 skipped: already exists
+Copying blob 1dbcab28ce46 skipped: already exists
+Copying blob 1dbcab28ce46 skipped: already exists
+Copying blob 1dbcab28ce46 skipped: already exists
+Copying blob 1dbcab28ce46 skipped: already exists
+[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KCopying blob 1dbcab28ce46 skipped: already exists
+Copying blob 1dbcab28ce46 skipped: already exists
+Copying blob 1dbcab28ce46 skipped: already exists
+Copying blob 1dbcab28ce46 skipped: already exists
+Copying blob 1dbcab28ce46 skipped: already exists
+Copying blob 97c88a299bf0 [--------------------------------------] 0b / 0b
+[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KCopying blob 1dbcab28ce46 skipped: already exists
+Copying blob 1dbcab28ce46 skipped: already exists
+Copying blob 1dbcab28ce46 skipped: already exists
+Copying blob 1dbcab28ce46 skipped: already exists
+Copying blob 1dbcab28ce46 skipped: already exists
+Copying blob 97c88a299bf0 skipped: already exists
+Copying blob a55bf3031ff6 [--------------------------------------] 0b / 0b
+Copying blob 9dd2a0b0492d [--------------------------------------] 0b / 0b
+[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KCopying blob 1dbcab28ce46 skipped: already exists
+Copying blob 1dbcab28ce46 skipped: already exists
+Copying blob 1dbcab28ce46 skipped: already exists
+Copying blob 1dbcab28ce46 skipped: already exists
+Copying blob 1dbcab28ce46 skipped: already exists
+Copying blob 97c88a299bf0 skipped: already exists
+Copying blob a55bf3031ff6 skipped: already exists
+Copying blob 9dd2a0b0492d skipped: already exists
+Copying config bbbfa5338c [--------------------------------------] 0b / 3.1KiB
+[1A[2KCopying config bbbfa5338c [--------------------------------------] 0b / 3.1KiB
+[1A[2KCopying config bbbfa5338c [--------------------------------------] 0b / 3.1KiB
+[1A[2KCopying config bbbfa5338c [--------------------------------------] 0b / 3.1KiB
+[1A[2KCopying config bbbfa5338c [======================================] 3.1KiB / 3.1KiB
+[1A[2KCopying config bbbfa5338c done
+[1A[2KCopying config bbbfa5338c done
+[1A[2KCopying config bbbfa5338c done
+[1A[2KCopying config bbbfa5338c done
+[1A[2KCopying config bbbfa5338c done
+Writing manifest to image destination
+Storing signatures
+]777;notify;Command completed;skopeo copy docker://quay.io/redhattraining/versioned-hello:v1.0 docker://quay.io/atulsingh0/versioned-hello:latest]0;student@workstation:~/DO380-apps]7;file://workstation.lab.example.com/home/student/DO380-apps[student@workstation DO380-apps]$ oc import-image quay.io/atulsingh0/versioned-hello:latest --co nfirm --scheduled
+error: tag latest failed: you may not have access to the container image "quay.io/atulsingh0/versioned-hello:latest"
+imagestream.image.openshift.io/versioned-hello imported with errors
+
+Name:			versioned-hello
+Namespace:		k8s-optimize
+Created:		Less than a second ago
+Labels:			<none>
+Annotations:		openshift.io/image.dockerRepositoryCheck=2020-12-12T16:15:32Z
+Image Repository:	image-registry.openshift-image-registry.svc:5000/k8s-optimize/versioned-hello
+Image Lookup:		local=false
+Unique Images:		0
+Tags:			1
+
+latest
+  updates automatically from registry quay.io/atulsingh0/versioned-hello:latest
+
+  ! error: Import failed (Unauthorized): you may not have access to the container image "quay.io/atulsingh0/versioned-hello:latest"
+      Less than a second ago
+
+
+]777;notify;Command completed;oc import-image quay.io/atulsingh0/versioned-hello:latest --confirm --scheduled]0;student@workstation:~/DO380-apps]7;file://workstation.lab.example.com/home/student/DO380-apps[student@workstation DO380-apps]$ oc import-image quay.io/atulsingh0/versioned-hello:latest --connfirm --scheduled
+error: tag latest failed: you may not have access to the container image "quay.io/atulsingh0/versioned-hello:latest"
+imagestream.image.openshift.io/versioned-hello imported with errors
+
+Name:			versioned-hello
+Namespace:		k8s-optimize
+Created:		8 seconds ago
+Labels:			<none>
+Annotations:		openshift.io/image.dockerRepositoryCheck=2020-12-12T16:15:32Z
+Image Repository:	image-registry.openshift-image-registry.svc:5000/k8s-optimize/versioned-hello
+Image Lookup:		local=false
+Unique Images:		0
+Tags:			1
+
+latest
+  updates automatically from registry quay.io/atulsingh0/versioned-hello:latest
+
+  ! error: Import failed (Unauthorized): you may not have access to the container image "quay.io/atulsingh0/versioned-hello:latest"
+      8 seconds ago
+
+
+]777;notify;Command completed;oc import-image quay.io/atulsingh0/versioned-hello:latest --confirm --scheduled]0;student@workstation:~/DO380-apps]7;file://workstation.lab.example.com/home/student/DO380-apps[student@workstation DO380-apps]$ oc import-image quay.io/atulsingh0/versioned-hello:latest --connfirm --scheduled[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cskopeo copy docker://quay.io/redhattraining/versioned-hello:v1.0 docker://quay.io/atulsingh0/versioned-hello:latest[Apodman login quay.io[K
+[K[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C
+Authenticating with existing credentials...
+Existing credentials are valid. Already logged in to quay.io
+]777;notify;Command completed;podman login quay.io]0;student@workstation:~/DO380-apps]7;file://workstation.lab.example.com/home/student/DO380-apps[student@workstation DO380-apps]$ podman login quay.iooc import-image quay.io/atulsingh0/versioned-hello:latest --connfirm --scheduled
+error: tag latest failed: you may not have access to the container image "quay.io/atulsingh0/versioned-hello:latest"
+imagestream.image.openshift.io/versioned-hello imported with errors
+
+Name:			versioned-hello
+Namespace:		k8s-optimize
+Created:		42 seconds ago
+Labels:			<none>
+Annotations:		openshift.io/image.dockerRepositoryCheck=2020-12-12T16:15:32Z
+Image Repository:	image-registry.openshift-image-registry.svc:5000/k8s-optimize/versioned-hello
+Image Lookup:		local=false
+Unique Images:		0
+Tags:			1
+
+latest
+  updates automatically from registry quay.io/atulsingh0/versioned-hello:latest
+
+  ! error: Import failed (Unauthorized): you may not have access to the container image "quay.io/atulsingh0/versioned-hello:latest"
+      42 seconds ago
+
+
+]777;notify;Command completed;oc import-image quay.io/atulsingh0/versioned-hello:latest --confirm --scheduled]0;student@workstation:~/DO380-apps]7;file://workstation.lab.example.com/home/student/DO380-apps[student@workstation DO380-apps]$ oc import-image quay.io/atulsingh0/versioned-hello:latest --connfirm --scheduled[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C/versioned-hello:latest --conf[1P[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C0/versioned-hello:latest --con[1@f[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C
+
+error: tag latest failed: you may not have access to the container image "quay.io/atulsingh0/versioned-hello:latest"
+imagestream.image.openshift.io/versioned-hello imported with errors
+
+Name:			versioned-hello
+Namespace:		k8s-optimize
+Created:		50 seconds ago
+Labels:			<none>
+Annotations:		openshift.io/image.dockerRepositoryCheck=2020-12-12T16:15:32Z
+Image Repository:	image-registry.openshift-image-registry.svc:5000/k8s-optimize/versioned-hello
+Image Lookup:		local=false
+Unique Images:		0
+Tags:			1
+
+latest
+  updates automatically from registry quay.io/atulsingh0/versioned-hello:latest
+
+  ! error: Import failed (Unauthorized): you may not have access to the container image "quay.io/atulsingh0/versioned-hello:latest"
+      50 seconds ago
+
+
+]777;notify;Command completed;oc import-image quay.io/atulsingh0/versioned-hello:latest --confirm --scheduled]0;student@workstation:~/DO380-apps]7;file://workstation.lab.example.com/home/student/DO380-apps[student@workstation DO380-apps]$ oc import-image quay.io/atulsingh0/versioned-hello:latest --connfirm --scheduled
+error: tag latest failed: you may not have access to the container image "quay.io/atulsingh0/versioned-hello:latest"
+imagestream.image.openshift.io/versioned-hello imported with errors
+
+Name:			versioned-hello
+Namespace:		k8s-optimize
+Created:		About a minute ago
+Labels:			<none>
+Annotations:		openshift.io/image.dockerRepositoryCheck=2020-12-12T16:15:32Z
+Image Repository:	image-registry.openshift-image-registry.svc:5000/k8s-optimize/versioned-hello
+Image Lookup:		local=false
+Unique Images:		0
+Tags:			1
+
+latest
+  updates automatically from registry quay.io/atulsingh0/versioned-hello:latest
+
+  ! error: Import failed (Unauthorized): you may not have access to the container image "quay.io/atulsingh0/versioned-hello:latest"
+      About a minute ago
+
+
+]777;notify;Command completed;oc import-image quay.io/atulsingh0/versioned-hello:latest --confirm --scheduled]0;student@workstation:~/DO380-apps]7;file://workstation.lab.example.com/home/student/DO380-apps[student@workstation DO380-apps]$ oc import-image quay.io/atulsingh0/versioned-hello:latest --connfirm --scheduled[K[K[K[K[K[K[K[K[K[K[K
+error: tag latest failed: you may not have access to the container image "quay.io/atulsingh0/versioned-hello:latest"
+imagestream.image.openshift.io/versioned-hello imported with errors
+
+Name:			versioned-hello
+Namespace:		k8s-optimize
+Created:		About a minute ago
+Labels:			<none>
+Annotations:		openshift.io/image.dockerRepositoryCheck=2020-12-12T16:15:32Z
+Image Repository:	image-registry.openshift-image-registry.svc:5000/k8s-optimize/versioned-hello
+Image Lookup:		local=false
+Unique Images:		0
+Tags:			1
+
+latest
+  updates automatically from registry quay.io/atulsingh0/versioned-hello:latest
+
+  ! error: Import failed (Unauthorized): you may not have access to the container image "quay.io/atulsingh0/versioned-hello:latest"
+      About a minute ago
+
+
+]777;notify;Command completed;oc import-image quay.io/atulsingh0/versioned-hello:latest --confirm ]0;student@workstation:~/DO380-apps]7;file://workstation.lab.example.com/home/student/DO380-apps[student@workstation DO380-apps]$ oc set triggers deployment/hello --from-image versioned-hello: latest -c hello
+deployment.apps/hello triggers updated
+]777;notify;Command completed;oc set triggers deployment/hello --from-image versioned-hello:latest -c hello]0;student@workstation:~/DO380-apps]7;file://workstation.lab.example.com/home/student/DO380-apps[student@workstation DO380-apps]$ oc get deployment/hello -o json | jq '.metadata.annotations'
+[1;39m{
+  [0m[34;1m"deployment.kubernetes.io/revision"[0m[1;39m: [0m[0;32m"1"[0m[1;39m,
+  [0m[34;1m"image.openshift.io/triggers"[0m[1;39m: [0m[0;32m"[{\"from\":{\"kind\":\"ImageStreamTag\",\"name\":\"versioned-hello:latest\"},\"fieldPath\":\"spec.template.spec.containers[?(@.name==\\\"hello\\\")].image\"}]"[0m[1;39m
+[1;39m}[0m
+]777;notify;Command completed;oc get deployment/hello -o json | jq '.metadata.annotations']0;student@workstation:~/DO380-apps]7;file://workstation.lab.example.com/home/student/DO380-apps[student@workstation DO380-apps]$ ning/versioned-hello:v1.1 \ 
+bash: ning/versioned-hello:v1.1: No such file or directory
+]777;notify;Command completed;ning/versioned-hello:v1.1 \ ]0;student@workstation:~/DO380-apps]7;file://workstation.lab.example.com/home/student/DO380-apps[student@workstation DO380-apps]$ docker://quay.io/atulsingh0/versioned-hello:latest
+bash: docker://quay.io/atulsingh0/versioned-hello:latest: No such file or directory
+]777;notify;Command completed;docker://quay.io/atulsingh0/versioned-hello:latest]0;student@workstation:~/DO380-apps]7;file://workstation.lab.example.com/home/student/DO380-apps[student@workstation DO380-apps]$ skopeo copy \
+> docker://quay.io/redhattraining/versioned-hello:v1.1 \ 
+d[31mFATA[0m[0000] Invalid destination name  : Invalid image name " ", expected colon-separated transport:reference 
+]777;notify;Command completed;skopeo copy docker://quay.io/redhattraining/versioned-hello:v1.1 \ ]0;student@workstation:~/DO380-apps]7;file://workstation.lab.example.com/home/student/DO380-apps[student@workstation DO380-apps]$ docker://quay.io/atulsingh0/versioned-hello:latest
+bash: docker://quay.io/atulsingh0/versioned-hello:latest: No such file or directory
+]777;notify;Command completed;docker://quay.io/atulsingh0/versioned-hello:latest]0;student@workstation:~/DO380-apps]7;file://workstation.lab.example.com/home/student/DO380-apps[student@workstation DO380-apps]$ clear
+[3J[H[2J]777;notify;Command completed;clear]0;student@workstation:~/DO380-apps]7;file://workstation.lab.example.com/home/student/DO380-apps[student@workstation DO380-apps]$ skopeo copy \
+> docker://quay.io/redhattraining/versioned-hello:v1.1 \ 
+[31mFATA[0m[0000] Invalid destination name  : Invalid image name " ", expected colon-separated transport:reference 
+]777;notify;Command completed;skopeo copy docker://quay.io/redhattraining/versioned-hello:v1.1 \ ]0;student@workstation:~/DO380-apps]7;file://workstation.lab.example.com/home/student/DO380-apps[student@workstation DO380-apps]$ docker://quay.io/atulsingh0/versioned-hello:latest
+bash: docker://quay.io/atulsingh0/versioned-hello:latest: No such file or directory
+]777;notify;Command completed;docker://quay.io/atulsingh0/versioned-hello:latest]0;student@workstation:~/DO380-apps]7;file://workstation.lab.example.com/home/student/DO380-apps[student@workstation DO380-apps]$ docker://quay.io/atulsingh0/versioned-hello:latest[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cskopeo copy docker://quay.io/redhattraining/versioned-hello:v1..1 \ [K[Kdocker://quay.io/atulsingh0/versioned-hello:latest
+Getting image source signatures
+Copying blob a3ed95caeb02 [--------------------------------------] 0b / 0b
+Copying blob a3ed95caeb02 [--------------------------------------] 0b / 0b
+Copying blob a3ed95caeb02 [--------------------------------------] 0b / 0b
+Copying blob 9dd2a0b0492d [--------------------------------------] 0b / 0b
+Copying blob a55bf3031ff6 [--------------------------------------] 0b / 0b
+[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KCopying blob a3ed95caeb02 skipped: already exists
+Copying blob a3ed95caeb02 skipped: already exists
+Copying blob a3ed95caeb02 skipped: already exists
+Copying blob 9dd2a0b0492d skipped: already exists
+Copying blob a55bf3031ff6 skipped: already exists
+Copying blob a3ed95caeb02 [--------------------------------------] 0b / 0b
+Copying blob a3ed95caeb02 [--------------------------------------] 0b / 0b
+[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KCopying blob a3ed95caeb02 skipped: already exists
+Copying blob a3ed95caeb02 skipped: already exists
+Copying blob a3ed95caeb02 skipped: already exists
+Copying blob 9dd2a0b0492d skipped: already exists
+Copying blob a55bf3031ff6 skipped: already exists
+Copying blob a3ed95caeb02 skipped: already exists
+Copying blob a3ed95caeb02 skipped: already exists
+[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KCopying blob a3ed95caeb02 skipped: already exists
+Copying blob a3ed95caeb02 skipped: already exists
+Copying blob a3ed95caeb02 skipped: already exists
+Copying blob 9dd2a0b0492d skipped: already exists
+Copying blob a55bf3031ff6 skipped: already exists
+Copying blob a3ed95caeb02 skipped: already exists
+Copying blob a3ed95caeb02 skipped: already exists
+Copying blob 77d9eb02384b [--------------------------------------] 0b / 3.8MiB
+[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KCopying blob a3ed95caeb02 skipped: already exists
+Copying blob a3ed95caeb02 skipped: already exists
+Copying blob a3ed95caeb02 skipped: already exists
+Copying blob 9dd2a0b0492d skipped: already exists
+Copying blob a55bf3031ff6 skipped: already exists
+Copying blob a3ed95caeb02 skipped: already exists
+Copying blob a3ed95caeb02 skipped: already exists
+Copying blob 77d9eb02384b [--------------------------------------] 0b / 3.8MiB
+[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KCopying blob a3ed95caeb02 skipped: already exists
+Copying blob a3ed95caeb02 skipped: already exists
+Copying blob a3ed95caeb02 skipped: already exists
+Copying blob 9dd2a0b0492d skipped: already exists
+Copying blob a55bf3031ff6 skipped: already exists
+Copying blob a3ed95caeb02 skipped: already exists
+Copying blob a3ed95caeb02 skipped: already exists
+Copying blob 77d9eb02384b [--------------------------------------] 0b / 3.8MiB
+[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KCopying blob a3ed95caeb02 skipped: already exists
+Copying blob a3ed95caeb02 skipped: already exists
+Copying blob a3ed95caeb02 skipped: already exists
+Copying blob 9dd2a0b0492d skipped: already exists
+Copying blob a55bf3031ff6 skipped: already exists
+Copying blob a3ed95caeb02 skipped: already exists
+Copying blob a3ed95caeb02 skipped: already exists
+Copying blob 77d9eb02384b [--------------------------------------] 0b / 3.8MiB
+[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KCopying blob a3ed95caeb02 skipped: already exists
+Copying blob a3ed95caeb02 skipped: already exists
+Copying blob a3ed95caeb02 skipped: already exists
+Copying blob 9dd2a0b0492d skipped: already exists
+Copying blob a55bf3031ff6 skipped: already exists
+Copying blob a3ed95caeb02 skipped: already exists
+Copying blob a3ed95caeb02 skipped: already exists
+Copying blob 77d9eb02384b [>-------------------------------------] 81.7KiB / 3.8MiB
+[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KCopying blob a3ed95caeb02 skipped: already exists
+Copying blob a3ed95caeb02 skipped: already exists
+Copying blob a3ed95caeb02 skipped: already exists
+Copying blob 9dd2a0b0492d skipped: already exists
+Copying blob a55bf3031ff6 skipped: already exists
+Copying blob a3ed95caeb02 skipped: already exists
+Copying blob a3ed95caeb02 skipped: already exists
+Copying blob 77d9eb02384b [========>-----------------------------] 966.3KiB / 3.8MiB
+[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KCopying blob a3ed95caeb02 skipped: already exists
+Copying blob a3ed95caeb02 skipped: already exists
+Copying blob a3ed95caeb02 skipped: already exists
+Copying blob 9dd2a0b0492d skipped: already exists
+Copying blob a55bf3031ff6 skipped: already exists
+Copying blob a3ed95caeb02 skipped: already exists
+Copying blob a3ed95caeb02 skipped: already exists
+Copying blob 77d9eb02384b [======================================] 3.8MiB / 3.8MiB
+[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KCopying blob a3ed95caeb02 skipped: already exists
+Copying blob a3ed95caeb02 skipped: already exists
+Copying blob a3ed95caeb02 skipped: already exists
+Copying blob 9dd2a0b0492d skipped: already exists
+Copying blob a55bf3031ff6 skipped: already exists
+Copying blob a3ed95caeb02 skipped: already exists
+Copying blob a3ed95caeb02 skipped: already exists
+Copying blob 77d9eb02384b done
+[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KCopying blob a3ed95caeb02 skipped: already exists
+Copying blob a3ed95caeb02 skipped: already exists
+Copying blob a3ed95caeb02 skipped: already exists
+Copying blob 9dd2a0b0492d skipped: already exists
+Copying blob a55bf3031ff6 skipped: already exists
+Copying blob a3ed95caeb02 skipped: already exists
+Copying blob a3ed95caeb02 skipped: already exists
+Copying blob 77d9eb02384b done
+[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KCopying blob a3ed95caeb02 skipped: already exists
+Copying blob a3ed95caeb02 skipped: already exists
+Copying blob a3ed95caeb02 skipped: already exists
+Copying blob 9dd2a0b0492d skipped: already exists
+Copying blob a55bf3031ff6 skipped: already exists
+Copying blob a3ed95caeb02 skipped: already exists
+Copying blob a3ed95caeb02 skipped: already exists
+Copying blob 77d9eb02384b done
+[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KCopying blob a3ed95caeb02 skipped: already exists
+Copying blob a3ed95caeb02 skipped: already exists
+Copying blob a3ed95caeb02 skipped: already exists
+Copying blob 9dd2a0b0492d skipped: already exists
+Copying blob a55bf3031ff6 skipped: already exists
+Copying blob a3ed95caeb02 skipped: already exists
+Copying blob a3ed95caeb02 skipped: already exists
+Copying blob 77d9eb02384b done
+[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KCopying blob a3ed95caeb02 skipped: already exists
+Copying blob a3ed95caeb02 skipped: already exists
+Copying blob a3ed95caeb02 skipped: already exists
+Copying blob 9dd2a0b0492d skipped: already exists
+Copying blob a55bf3031ff6 skipped: already exists
+Copying blob a3ed95caeb02 skipped: already exists
+Copying blob a3ed95caeb02 skipped: already exists
+Copying blob 77d9eb02384b done
+[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2K[1A[2KCopying blob a3ed95caeb02 skipped: already exists
+Copying blob a3ed95caeb02 skipped: already exists
+Copying blob a3ed95caeb02 skipped: already exists
+Copying blob 9dd2a0b0492d skipped: already exists
+Copying blob a55bf3031ff6 skipped: already exists
+Copying blob a3ed95caeb02 skipped: already exists
+Copying blob a3ed95caeb02 skipped: already exists
+Copying blob 77d9eb02384b done
+Copying config ec42f14da4 [--------------------------------------] 0b / 3.1KiB
+[1A[2KCopying config ec42f14da4 [--------------------------------------] 0b / 3.1KiB
+[1A[2KCopying config ec42f14da4 [--------------------------------------] 0b / 3.1KiB
+[1A[2KCopying config ec42f14da4 [--------------------------------------] 0b / 3.1KiB
+[1A[2KCopying config ec42f14da4 [======================================] 3.1KiB / 3.1KiB
+[1A[2KCopying config ec42f14da4 done
+[1A[2KCopying config ec42f14da4 done
+[1A[2KCopying config ec42f14da4 done
+Writing manifest to image destination
+Storing signatures
+]777;notify;Command completed;skopeo copy docker://quay.io/redhattraining/versioned-hello:v1.1 docker://quay.io/atulsingh0/versioned-hello:latest]0;student@workstation:~/DO380-apps]7;file://workstation.lab.example.com/home/student/DO380-apps[student@workstation DO380-apps]$ skopeo copy docker://quay.io/redhattraining/versioned-hello:v1..1 docker://quay.io/atulsingh0/versioned-hello:latest[A[12Pdocker://quay.io/atulsingh0/versioned-hello:latest
+[K[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cskopeo copy docker://quay.io/redhattraining/versioned-hello:v1..1 \ [A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cclear[K
+[K[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cdocker://quay.io/atulsingh0/versioned-hello:latest[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cskopeo copy docker://quay.io/redhattraining/versioned-hello:v1..1 \ [A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[12Pdocker://quay.io/atulsingh0/versioned-hello:latest
+[K[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[22Pning/versioned-hello:v1.1 \ oc get deployment/hello -o json | jq '.metadata.annotations'[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cset triggers deployment/hello --from-image versioned-hello:llatest -c hello[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cimport-image quay.io/atulsingh0/versioned-hello:latest --con[9Pfirm 
+error: tag latest failed: you may not have access to the container image "quay.io/atulsingh0/versioned-hello:latest"
+imagestream.image.openshift.io/versioned-hello imported with errors
+
+Name:			versioned-hello
+Namespace:		k8s-optimize
+Created:		5 minutes ago
+Labels:			<none>
+Annotations:		openshift.io/image.dockerRepositoryCheck=2020-12-12T16:15:32Z
+Image Repository:	image-registry.openshift-image-registry.svc:5000/k8s-optimize/versioned-hello
+Image Lookup:		local=false
+Unique Images:		0
+Tags:			1
+
+latest
+  updates automatically from registry quay.io/atulsingh0/versioned-hello:latest
+
+  ! error: Import failed (Unauthorized): you may not have access to the container image "quay.io/atulsingh0/versioned-hello:latest"
+      5 minutes ago
+
+
+]777;notify;Command completed;oc import-image quay.io/atulsingh0/versioned-hello:latest --confirm ]0;student@workstation:~/DO380-apps]7;file://workstation.lab.example.com/home/student/DO380-apps[student@workstation DO380-apps]$ oc import-image quay.io/atulsingh0/versioned-hello:latest
+error: tag latest failed: you may not have access to the container image "quay.io/atulsingh0/versioned-hello:latest"
+imagestream.image.openshift.io/versioned-hello imported with errors
+
+Name:			versioned-hello
+Namespace:		k8s-optimize
+Created:		5 minutes ago
+Labels:			<none>
+Annotations:		openshift.io/image.dockerRepositoryCheck=2020-12-12T16:15:32Z
+Image Repository:	image-registry.openshift-image-registry.svc:5000/k8s-optimize/versioned-hello
+Image Lookup:		local=false
+Unique Images:		0
+Tags:			1
+
+latest
+  updates automatically from registry quay.io/atulsingh0/versioned-hello:latest
+
+  ! error: Import failed (Unauthorized): you may not have access to the container image "quay.io/atulsingh0/versioned-hello:latest"
+      5 minutes ago
+
+
+]777;notify;Command completed;oc import-image quay.io/atulsingh0/versioned-hello:latest]0;student@workstation:~/DO380-apps]7;file://workstation.lab.example.com/home/student/DO380-apps[student@workstation DO380-apps]$ oc get deployment/hello -o json | jq '.metadata.annotations'
+
+[1;39m{
+  [0m[34;1m"deployment.kubernetes.io/revision"[0m[1;39m: [0m[0;32m"1"[0m[1;39m,
+  [0m[34;1m"image.openshift.io/triggers"[0m[1;39m: [0m[0;32m"[{\"from\":{\"kind\":\"ImageStreamTag\",\"name\":\"versioned-hello:latest\"},\"fieldPath\":\"spec.template.spec.containers[?(@.name==\\\"hello\\\")].image\"}]"[0m[1;39m
+[1;39m}[0m
+]777;notify;Command completed;oc get deployment/hello -o json | jq '.metadata.annotations']0;student@workstation:~/DO380-apps]7;file://workstation.lab.example.com/home/student/DO380-apps[student@workstation DO380-apps]$ 
+]777;notify;Command completed;oc get deployment/hello -o json | jq '.metadata.annotations']0;student@workstation:~/DO380-apps]7;file://workstation.lab.example.com/home/student/DO380-apps[student@workstation DO380-apps]$ cp -[K[K[K[Kexit
+
+Script done on 2020-12-12 11:22:07-05:00

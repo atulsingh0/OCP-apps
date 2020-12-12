@@ -1,103 +1,23 @@
-Script started on 2020-12-12 11:02:36-05:00
-]777;notify;Command completed;exit]0;student@workstation:~/DO380-apps]7;file://workstation.lab.example.com/home/student/DO380-apps[student@workstation DO380-apps]$ cl[K[Klab k8s-deploy start
+Script started on 2020-12-12 11:11:37-05:00
+]777;notify;Command completed;git status]0;student@workstation:~/DO380-apps]7;file://workstation.lab.example.com/home/student/DO380-apps[student@workstation DO380-apps]$ oc project k8s-optimize
+Now using project "k8s-optimize" on server "https://api.ocp4.example.com:6443".
+]777;notify;Command completed;oc project k8s-optimize]0;student@workstation:~/DO380-apps]7;file://workstation.lab.example.com/home/student/DO380-apps[student@workstation DO380-apps]$ oc get deployment,pod,service,ingress
+NAME                    READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/hello   2/2     2            2           53s
 
-Checking prerequisites for Guided Exercise: Deploying Kubernetes Applications on OpenShift
+NAME                         READY   STATUS    RESTARTS   AGE
+pod/hello-67cc4b8f87-86c95   1/1     Running   0          52s
+pod/hello-67cc4b8f87-l82l2   1/1     Running   0          52s
 
- Verify the OpenShift cluster is running:
- · Router pods are available...................................  [1;36mSUCCESS[0;39m
- · OAuth pods are available....................................  [1;36mSUCCESS[0;39m
- · API pods are available......................................  [1;36mSUCCESS[0;39m
- · Control plane node 'master01' is ready......................  [1;36mSUCCESS[0;39m
- · Control plane node 'master02' is ready......................  [1;36mSUCCESS[0;39m
- · Control plane node 'master03' is ready......................  [1;36mSUCCESS[0;39m
+NAME            TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)    AGE
+service/hello   ClusterIP   172.30.28.31   <none>        8080/TCP   53s
 
- Checking for conflicts with existing OpenShift projects:
- · The 'k8s-deploy' project is absent..........................  [1;36mSUCCESS[0;39m
- · The 'k8s-deploy-prod' project is absent.....................  [1;36mSUCCESS[0;39m
+NAME                       CLASS    HOSTS                         ADDRESS   PORTS   AGE
+ingress.extensions/hello   <none>   hello.apps.ocp4.example.com             80      53s
+]777;notify;Command completed;oc get deployment,pod,service,ingress]0;student@workstation:~/DO380-apps]7;file://workstation.lab.example.com/home/student/DO380-apps[student@workstation DO380-apps]$ oc get deployment/hello -o json | \
+> > jq '.spec.template.spec.containers[0].image'[1P[1P
+[0;32m"quay.io/redhattraining/versioned-hello:v1.0"[0m
+]777;notify;Command completed;oc get deployment/hello -o json | jq '.spec.template.spec.containers[0].image']0;student@workstation:~/DO380-apps]7;file://workstation.lab.example.com/home/student/DO380-apps[student@workstation DO380-apps]$ ~/DO380/labs/k8s-optimize/watch.sh
+[?1049h[22;0;0t[1;27r(B[m[4l[?7h[H[2JEvery 2.0s: oc get deployment,pod,imag...  workstation.lab.example.com: Sat Dec 12 11:12:46 2020[3;1HNAME[3;25HREADY   UP-TO-DATE   AVAILABLE   AGE[4ddeployment.apps/hello   2/2     2[4;46H2[4;58H96s[6dNAME[6;30HREADY   STATUS    RESTARTS   AGE[7dpod/hello-67cc4b8f87-86c95   1/1     Running   0[7;59H95s[8dpod/hello-67cc4b8f87-l82l2   1/1     Running   0[8;59H95s[10d"quay.io/redhattraining/versioned-hello:v1.0"[12dHi![27;96H[1;91H8[4;59H8[7d7[8d7[27;96H[1;90H51[4;58H101s[7;59H100s[8;59H100s[27;96H[1;91H3[4;60H3[7d2[8d2[27;96H[1;91H5[4;60H5[7d4[8d4[27;96H[1;91H8[4;60H8[7d7[8d7[27;96H[1;88H3:00[4;59H10[7d9[8d9[27;96H[1;91H2[4;60H2[7d11[8d11[27;96H[1;91H5[4;60H6[7d5[8d5[27;96H[1;91H9[4;60H9[7d8[8d8[27;96H[1;90H11[4;58H2m1[7d2m[K[8d2m[K[27;96H[1;91H3[4;60H4[7d3s[8d3s[27;96H[1;91H6[4;60H6[7d5[8d5[27;96H[1;91H8[4;60H8[7d7[8d7[27;96H[1;90H20[4;60H11s[7d10s[8;61H10s[27;96H[1;91H3[4;61H3[7d2[8d2[27;96H[1;91H5[4;61H6[7d5[8d5[27;96H[1;91H8[4;61H8[7d7[8d7[27;96H[1;90H30[4;60H20[7d9[8d9[27;96H[1;91H2[4;61H2[7d21[8d21[27;96H[1;91H4[4;61H5[7d4[8d4[27;96H[1;91H7[4;61H7[7d6[8d6[27;96H[1;91H9[4;61H9[7d8[8d8[27;96H[1;90H41[4;60H31[7d30[8d30[27;96H[1;91H3[4;61H3[7d2[8d2[27;96H[1;91H6[4;61H6[7d5[8d5[27;96H[1;91H8[4;61H8[7d7[8d7[27;96H[1;90H50[4;60H40[7d9[8d9[27;96H[1;91H2[4;61H2[7d41[8d41[27;96H[1;91H5[4;61H5[7d4[8d4[27;96H[1;91H7[4;61H7[7d6[8d6[27;96H[1;91H9[4;61H9[7d8[8d8[27;96H[1;88H4:01[4;60H51[7d50[8d50[27;96H[1;91H3[4;61H4[7d3[8d3[27;96H[1;91H6[4;61H6[7d5[8d5[27;96H[1;91H8[4;61H8[7d7[8d7[27;96H[1;90H10[4;58H3m[K[7dm59[8d9[27;96H[1;91H2[4;60H2s[7;59H3m1s[K[8;59H3m1s[K[27;96H[1;91H5[4;60H5[7d4[8d4[27;96H[1;91H7[4;60H7[7d6[8d6[27;96H[1;91H9[4;60H9[7d8[8d8[27;96H[1;90H21[4;60H11s[7d10s[8;61H10s[27;96H[1;91H3[4;61H4[7d3[8d3[27;96H[1;91H6[4;61H6[7d5[8d5[27;96H[1;91H8[4;61H8[7d7[8d7[27;96H[1;90H30[4;60H20[7d9[8d9[27;96H[1;91H2[4;61H2[7d21[8d21[27;96H[1;91H5[4;61H5[7d4[8d4[27;96H[1;91H7[4;61H7[7d6[8d6[27;96H[1;91H9[4;61H9[7d8[8d8[27;96H[1;90H41[4;60H31[7d30[8d30[27;96H[1;91H3[4;61H4[7d3[8d3[27;96H[1;91H6[4;61H6[7d5[8d5[27;96H[1;91H8[4;61H8[7d7[8d7[27;96H[1;90H50[4;60H40[7d9[8d9[27;96H[1;91H2[4;61H2[7d41[8d41[27;96H[1;91H5[4;61H5[7d4[8d4[27;96H[1;91H7[4;61H7[7d6[8d6[27;96H[1;91H9[4;61H9[7d8[8d8[27;96H[1;88H5:01[4;60H51[7d50[8d50[27;96H[1;91H4[4;61H4[7d3[8d3[27;96H[1;91H6[4;61H6[7d5[8d5[27;96H[1;91H8[4;61H8[7d7[8d7[27;96H[1;90H10[4;58H4m[K[7dm59[8d9[27;96H[1;91H2[4;60H3s[7;59H4m2s[K[8;59H4m2s[K[27;96H[1;91H5[4;60H5[7d4[8d4[27;96H[1;91H7[4;60H7[7d6[8d6[27;96H[1;91H9[4;60H9[7d8[8d8[27;96H[1;90H21[4;60H12s[7d11s[8;61H11s[27;96H[1;91H4[4;61H4[7d3[8d3[27;96H[1;91H6[4;61H6[7d5[8d5[27;96H[1;91H8[4;61H8[7d7[8d7[27;96H[1;90H30[4;60H20[7d9[8d9[27;96H[9d[5L[1;91H3[4;61H3[7d22[8d22[10dNAME[10;50HIMAGE REPOSITORY[11;34HTAGS     UPDATED[12dimagestream.image.openshift.io/versioned-hello   image-registry.openshift-image-registry.svc:500[13;1H0/k8s-optimize/versioned-hello   latest[27;96H[1;91H5[4;61H5[7d4[8d4[27;96H[1;91H7[4;61H8[7d7[8d7[27;96H[1;90H40[4;60H30[7d9[8d9[27;96H[1;91H2[4;61H2[7d31[8d31[27;96H[1;91H4[4;61H4[7d3[8d3[27;96H[1;91H6[4;61H7[7d6[8d6[27;96H[1;91H9[4;61H9[7d8[8d8[27;96H[1;90H51[4;60H41[7d40[8d40[27;96H[1;91H3[4;61H3[7d2[8d2[27;96H[1;91H5[4;61H6[7d5[8d5[27;96H[1;91H8[4;61H8[7d7[8d7[27;96H[1;88H6:00[4;60H50[7d9[8d9[27;96H[1;91H2[4;61H2[7d51[8d51[27;96H[1;91H4[4;61H4[7d3[8d3[27;96H[1;91H7[4;61H7[7d6[8d6[27;96H[1;91H9[4;61H9[7d8[8d8[27;96H[1;90H11[4;58H5m1s[K[7;59H5m[K[8d5m[K[27;96H[1;91H3[4;60H3[7d2s[8d2s[27;96H[1;91H6[4;60H6[7d5[8d5[27;96H[1;91H8[4;60H8[7d7[8d7[27;96H[1;90H20[4;60H10s[7d9[8d9[27;96H[1;91H2[4;61H2[7d11s[8;61H11s[27;96H[1;91H5[4;61H5[7d4[8d4[27;96H[1;91H7[4;61H7[7d6[8d6[27;96H[1;91H9[4;61H9[7d8[8d8[27;96H[1;90H31[4;60H21[7d20[8d20[27;96H[1;91H3[4;61H4[7d3[8d3[27;96H[1;91H6[4;61H6[7d5[8d5[27;96H[1;91H8[4;61H8[7d7[8d7[27;96H[1;90H40[4;60H30[7d9[8d9[27;96H[1;91H2[4;61H2[7d31[8d31[27;96H[1;91H5[4;61H5[7d4[8d4[27;96H[1;91H7[4;61H7[7d6[8d6[27;96H[1;91H9[4;61H9[7d8[8d8[27;96H[1;90H51[4;60H41[7d40[8d40[27;96H[1;91H4[4;61H4[7d3[8d3[27;96H[1;91H6[4;61H6[7d5[8d5[27;96H[1;91H8[4;61H8[7d7[8d7[27;96H[1;88H7:00[4;60H50[7d9[8d9[27;96H[1;91H2[4;61H3[7d52[8d52[27;96H[1;91H5[4;61H5[7d4[8d4[27;96H[1;91H7[4;61H7[7d6[8d6[27;96H[1;90H10[4;58H6m[K[7dm59[8d9[27;96H[1;91H2[4;60H2s[7;59H6m1s[K[8;59H6m1s[K[27;96H[1;91H4[4;60H4[7d3[8d3[27;96H[1;91H6[4;60H6[7d5[8d5[27;96H[1;91H9[4;60H9[7d8[8d8[27;96H[1;90H21[4;60H11s[7d10s[8;61H10s[27;96H[1;91H3[4;61H3[7d2[8d2[27;96H[1;91H5[4;61H5[7d4[8d4[27;96H[1;91H7[4;61H8[7d7[8d7[27;96H[1;90H30[4;60H20[7d9[8d9[27;96H[1;91H2[4;61H2[7d21[8d21[27;96H[1;91H4[4;61H4[7d3[8d3[27;96H[1;91H6[4;61H7[7d6[8d6[27;96H[1;91H9[4;61H9[7d8[8d8[27;96H[1;90H41[4;60H31[7d30[8d30[27;96H[1;91H3[4;61H3[7d2[8d2[27;96H[1;91H5[4;61H5[7d4[8d4[27;96H[1;91H8[4;61H8[7d7[8d7[27;96H[1;90H50[4;60H40[7d9[8d9[27;96H[1;91H2[4;61H2[7d41[8d41[27;96H[1;91H4[4;61H4[7d3[8d3[27;96H[1;91H6[4;61H7[7d6[8d6[27;96H[1;91H9[4;61H9[7d8[8d8[27;96H[1;88H8:01[4;60H51[7d50[8d50[27;96H[1;91H3[4;61H3[7d2[8d2[27;96H[1;91H5[4;61H5[7d5[8d5[27;96H[1;91H8[4;61H8[7d7[8d7[27;96H[1;90H10[4;58H7m[K[7dm59[8d9[27;96H[1;91H2[4;60H2s[7;59H7m1s[K[8;59H7m1s[K[27;96H[1;91H4[4;60H4[7d3[8d3[27;96H[1;91H7[4;60H7[7d6[8d6[27;96H[1;91H9[4;60H9[7d8[8d8[27;96H[1;90H21[4;60H11s[7d10s[8;61H10s[27;96H[1;91H3[4;61H3[7d2[8d2[27;96H[1;91H6[4;61H6[7d5[8d5[27;96H[1;91H8[4;61H8[7d7[8d7[27;96H[1;90H31[4;60H21[7d20[8d20[27;96H[1;91H3[4;61H3[7d2[8d2[27;96H[1;91H5[4;61H6[7d5[8d5[27;96H[1;91H8[4;61H8[7d7[8d7[27;96H[1;90H40[4;60H30[7d9[8d9[27;96H[1;91H2[4;61H2[7d31[8d31[27;96H[1;91H5[4;61H5[7d4[8d4[27;96H[1;91H7[4;61H7[7d6[8d6[27;96H[1;91H9[4;61H9[7d8[8d8[27;96H[1;90H51[4;60H41[7d40[8d40[27;96H[1;91H4[4;61H4[7d3[8d3[27;96H[1;91H6[4;61H6[7d5[8d5[27;96H[1;91H8[4;61H8[7d7[8d7[27;96H[1;88H9:00[4;60H50[7d9[8d9[27;96H[1;91H2[4;61H3[7d52[8d52[27;96H[1;91H5[4;61H5[7d4[8d4[27;96H[1;91H7[4;61H7[7d6[8d6[27;96H[1;91H9[4;58H8m[K[7dm59[8d9[27;96H[1;90H12[4;60H2s[7;59H8m1s[K[8;59H8m1s[K[27;96H[1;91H4[4;60H4[7d3[8d3[27;96H[1;91H6[4;60H6[7d5[8d5[27;96H[1;91H9[4;60H9[7d8[8d8[27;96H[1;90H21[4;60H11s[7d10s[8;61H10s[27;96H[1;91H3[4;61H3[7d2[8d2[27;96H[1;91H5[4;61H5[7d4[8d4[27;96H[1;91H8[4;61H8[7d7[8d7[27;96H[1;90H30[4;60H20[7d9[8d9[27;96H[1;91H2[4;61H2[7d21[8d21[27;96H[1;91H4[4;61H4[7d3[8d3[27;96H[1;91H6[4;61H7[7d6[8d6[27;96H[1;91H9[4;61H9[7d8[8d8[27;96H[1;90H41[4;60H31[7d30[8d30[27;96H[1;91H3[4;61H3[7d2[8d2[27;96H[1;91H5[4;61H6[7d5[8d5[27;96H[1;91H8[4;61H8[7d7[8d7[27;96H[1;90H50[4;60H40[7d9[8d9[27;96H[1;91H2[4;61H2[7d41[8d41[27;96H[1;91H4[4;61H5[7d4[8d4[27;96H[1;91H7[4;61H7[7d6[8d6[27;96H[1;91H9[4;61H9[7d8[8d8[27;96H[1;87H20:01[4;60H51[7d50[8d50[27;96H[1;91H3[4;61H3[7d2[8d2[27;96H[1;91H6[4;61H6[7d5[8d5[27;96H[1;91H8[4;61H8[7d7[8d7[27;96H[1;90H10[4;58H9m[K[7dm59[8d9[27;96H[1;91H2[4;60H2s[7;59H9m1s[K[8;59H9m1s[K[27;96H[1;91H5[4;60H5[7d4[8d4[27;96H[1;91H7[4;60H7[7d6[8d6[27;96H[1;91H9[4;60H9[7d8[8d8[27;96H[1;90H21[4;60H11s[7d10s[8;61H10s[27;96H[1;91H4[4;61H4[7d3[8d3[27;96H[1;91H6[4;61H6[7d5[8d5[27;96H[1;91H8[4;61H8[7d7[8d7[27;96H[1;90H30[4;60H20[7d9[8d9[27;96H[1;91H2[4;61H3[7d22[8d22[27;96H[1;91H5[4;61H5[7d4[8d4[27;96H[1;91H7[4;61H7[7d6[8d6[27;96H[1;91H9[4;61H9[7d8[8d8[27;96H[1;90H41[4;60H32[7d31[8d31[27;96H[1;91H4[4;61H4[7d3[8d3[27;96H[1;91H6[4;61H6[7d5[8d5[27;96H[1;91H8[4;61H8[7d7[8d7[27;96H[1;90H50[4;60H40[7d9[8d9[27;96H[1;91H3[4;61H3[7d42[8d42[27;96H[1;91H5[4;61H5[7d4[8d4[27;96H[1;91H7[4;61H7[7d6[8d6[27;96H[1;91H9[4;61H9[7d8[8d8[27;96H[1;88H1:02[4;60H52[7d51[8d51[27;96H[1;91H4[4;61H4[7d3[8d3[27;96H[1;91H6[4;61H6[7d5[8d5[27;96H[1;91H8[4;61H8[7d7[8d7[27;96H[1;90H10[4;58H10m[K[7d10m[K[8;59H10m[K[27;96H[1;91H3[27;96H[1;91H5[27;96H[1;91H8[27;96H[1;90H20[27;96H[1;91H2[27;96H[1;91H5[27;96H[1;91H7[27;96H[1;91H9[27;96H[1;90H31[27;96H[1;91H3[27;96H[1;91H6[27;96H[1;91H8[27;96H[1;90H40[27;96H[1;91H2[27;96H[1;91H5[27;96H[1;91H7[27;96H[1;91H9[27;96H[1;90H51[27;96H[1;91H4[27;96H[1;91H6[27;96H[1;91H8[27;96H[1;88H2:00[27;96H[1;91H3[27;96H[1;91H5[27;96H[1;91H7[27;96H[1;91H9[4;59H1[27;96H[27;1H[?1049l[23;0;0t[?1l>]777;notify;Command completed;~/DO380/labs/k8s-optimize/watch.sh]0;student@workstation:~/DO380-apps]7;file://workstation.lab.example.com/home/student/DO380-apps[student@workstation DO380-apps]$ exit
 
-Setting up the classroom for Guided Exercise: Deploying Kubernetes Applications on OpenShift
-
-
- Preparing the student's cluster:
- · Download exercise files.....................................  [1;36mSUCCESS[0;39m
- · Download solution files.....................................  [1;36mSUCCESS[0;39m
-
-Overall start status...........................................  [1;36mSUCCESS[0;39m
-
-]777;notify;Command completed;lab k8s-deploy start]0;student@workstation:~/DO380-apps]7;file://workstation.lab.example.com/home/student/DO380-apps[student@workstation DO380-apps]$ oc login -u admin -p redhat https://api.ocp4.e xample.com:6443
-The server uses a certificate signed by an unknown authority.
-You can bypass the certificate check, but any data you send to the server could be intercepted by others.
-Use insecure connections? (y/n): y
-
-Login successful.
-
-You have access to 58 projects, the list has been suppressed. You can list all projects with 'oc projects'
-
-Using project "default".
-Welcome! See 'oc help' to get started.
-]777;notify;Command completed;oc login -u admin -p redhat https://api.ocp4.example.com:6443]0;student@workstation:~/DO380-apps]7;file://workstation.lab.example.com/home/student/DO380-apps[student@workstation DO380-apps]$ cd ~/DO380/labs/k8s-deploy/
-]777;notify;Command completed;cd ~/DO380/labs/k8s-deploy/]0;student@workstation:~/DO380/labs/k8s-deploy]7;file://workstation.lab.example.com/home/student/DO380/labs/k8s-deploy[student@workstation k8s-deploy]$ kubectl create -f ns-and-rbac.yml
-namespace/k8s-deploy created
-rolebinding.rbac.authorization.k8s.io/hello-dev created
-]777;notify;Command completed;kubectl create -f ns-and-rbac.yml]0;student@workstation:~/DO380/labs/k8s-deploy]7;file://workstation.lab.example.com/home/student/DO380/labs/k8s-deploy[student@workstation k8s-deploy]$ oc login -u developer -p developer
-Login successful.
-
-You have one project on this server: "k8s-deploy"
-
-Using project "k8s-deploy".
-]777;notify;Command completed;oc login -u developer -p developer]0;student@workstation:~/DO380/labs/k8s-deploy]7;file://workstation.lab.example.com/home/student/DO380/labs/k8s-deploy[student@workstation k8s-deploy]$ kubectl apply -f hello.yml
-deployment.apps/hello created
-service/hello created
-ingress.extensions/hello created
-]777;notify;Command completed;kubectl apply -f hello.yml]0;student@workstation:~/DO380/labs/k8s-deploy]7;file://workstation.lab.example.com/home/student/DO380/labs/k8s-deploy[student@workstation k8s-deploy]$ kubectl get ingress
-NAME    CLASS    HOSTS                         ADDRESS   PORTS   AGE
-hello   <none>   hello.apps.ocp4.example.com             80      9s
-]777;notify;Command completed;kubectl get ingress]0;student@workstation:~/DO380/labs/k8s-deploy]7;file://workstation.lab.example.com/home/student/DO380/labs/k8s-deploy[student@workstation k8s-deploy]$ curl hello.apps.ocp4.example.com
-<html>
-  <body>
-    <h1>Hello, world from nginx!</h1>
-  </body>
-</html>
-]777;notify;Command completed;curl hello.apps.ocp4.example.com]0;student@workstation:~/DO380/labs/k8s-deploy]7;file://workstation.lab.example.com/home/student/DO380/labs/k8s-deploy[student@workstation k8s-deploy]$ oc login -u admin -p redhat
-Login successful.
-
-You have access to 59 projects, the list has been suppressed. You can list all projects with 'oc projects'
-
-Using project "k8s-deploy".
-]777;notify;Command completed;oc login -u admin -p redhat]0;student@workstation:~/DO380/labs/k8s-deploy]7;file://workstation.lab.example.com/home/student/DO380/labs/k8s-deploy[student@workstation k8s-deploy]$ kubectl create namespace k8s-deploy-prod
-namespace/k8s-deploy-prod created
-]777;notify;Command completed;kubectl create namespace k8s-deploy-prod]0;student@workstation:~/DO380/labs/k8s-deploy]7;file://workstation.lab.example.com/home/student/DO380/labs/k8s-deploy[student@workstation k8s-deploy]$ kubectl apply -k overlays/prod
-service/hello created
-deployment.apps/hello created
-ingress.extensions/hello created
-]777;notify;Command completed;kubectl apply -k overlays/prod]0;student@workstation:~/DO380/labs/k8s-deploy]7;file://workstation.lab.example.com/home/student/DO380/labs/k8s-deploy[student@workstation k8s-deploy]$ kubectl get ingress -n k8s-deploy-prod
-NAME    CLASS    HOSTS                                      ADDRESS   PORTS   AGE
-hello   <none>   deploying-practice.apps.ocp4.example.com             80      10s
-]777;notify;Command completed;kubectl get ingress -n k8s-deploy-prod]0;student@workstation:~/DO380/labs/k8s-deploy]7;file://workstation.lab.example.com/home/student/DO380/labs/k8s-deploy[student@workstation k8s-deploy]$ ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAII/yNN9tqJaaaTFBL59EzqjSFL/QaNAlpMuvX/ebyhyWP atul9806@yahoo.in
-bash: ssh-ed25519: command not found...
-]777;notify;Command completed;ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAII/yNN9tqJaaTFBL59EzqjSFL/QaNAlpMuvX/ebyhyWP atul9806@yahoo.in]0;student@workstation:~/DO380/labs/k8s-deploy]7;file://workstation.lab.example.com/home/student/DO380/labs/k8s-deploy[student@workstation k8s-deploy]$ pply -k overlays/prod
-bash: pply: command not found...
-]777;notify;Command completed;pply -k overlays/prod]0;student@workstation:~/DO380/labs/k8s-deploy]7;file://workstation.lab.example.com/home/student/DO380/labs/k8s-deploy[student@workstation k8s-deploy]$ pply -k overlays/prod[1@i[1P[C[C[1@p[1@c[1@ [1@a
-bash: pc: command not found...
-Similar commands are::
-'cp'
-'ps'
-]777;notify;Command completed;pc apply -k overlays/prod]0;student@workstation:~/DO380/labs/k8s-deploy]7;file://workstation.lab.example.com/home/student/DO380/labs/k8s-deploy[student@workstation k8s-deploy]$ pc apply -k overlays/prod[1P[1@o
-service/hello unchanged
-deployment.apps/hello configured
-ingress.extensions/hello configured
-]777;notify;Command completed;oc apply -k overlays/prod]0;student@workstation:~/DO380/labs/k8s-deploy]7;file://workstation.lab.example.com/home/student/DO380/labs/k8s-deploy[student@workstation k8s-deploy]$ cd
-]777;notify;Command completed;cd]0;student@workstation:~]7;file://workstation.lab.example.com/home/student[student@workstation ~]$ cd DO380-apps/
-]777;notify;Command completed;cd DO380-apps/]0;student@workstation:~/DO380-apps]7;file://workstation.lab.example.com/home/student/DO380-apps[student@workstation DO380-apps]$ cp -R DO[K[K../DO380/* .
-]777;notify;Command completed;cp -R ../DO380/* .]0;student@workstation:~/DO380-apps]7;file://workstation.lab.example.com/home/student/DO380-apps[student@workstation DO380-apps]$ git status
-On branch k8s-deploy
-Untracked files:
-  (use "git add <file>..." to include in what will be committed)
-
-	[31mid_ed25519.pub[m
-	[31mlabs/[m
-	[31msolutions/[m
-	[31mtypescript[m
-
-nothing added to commit but untracked files present (use "git add" to track)
-]777;notify;Com
+Script done on 2020-12-12 11:22:12-05:00
