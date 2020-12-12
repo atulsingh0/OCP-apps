@@ -1,0 +1,103 @@
+Script started on 2020-12-12 11:02:36-05:00
+]777;notify;Command completed;exit]0;student@workstation:~/DO380-apps]7;file://workstation.lab.example.com/home/student/DO380-apps[student@workstation DO380-apps]$ cl[K[Klab k8s-deploy start
+
+Checking prerequisites for Guided Exercise: Deploying Kubernetes Applications on OpenShift
+
+ Verify the OpenShift cluster is running:
+ · Router pods are available...................................  [1;36mSUCCESS[0;39m
+ · OAuth pods are available....................................  [1;36mSUCCESS[0;39m
+ · API pods are available......................................  [1;36mSUCCESS[0;39m
+ · Control plane node 'master01' is ready......................  [1;36mSUCCESS[0;39m
+ · Control plane node 'master02' is ready......................  [1;36mSUCCESS[0;39m
+ · Control plane node 'master03' is ready......................  [1;36mSUCCESS[0;39m
+
+ Checking for conflicts with existing OpenShift projects:
+ · The 'k8s-deploy' project is absent..........................  [1;36mSUCCESS[0;39m
+ · The 'k8s-deploy-prod' project is absent.....................  [1;36mSUCCESS[0;39m
+
+Setting up the classroom for Guided Exercise: Deploying Kubernetes Applications on OpenShift
+
+
+ Preparing the student's cluster:
+ · Download exercise files.....................................  [1;36mSUCCESS[0;39m
+ · Download solution files.....................................  [1;36mSUCCESS[0;39m
+
+Overall start status...........................................  [1;36mSUCCESS[0;39m
+
+]777;notify;Command completed;lab k8s-deploy start]0;student@workstation:~/DO380-apps]7;file://workstation.lab.example.com/home/student/DO380-apps[student@workstation DO380-apps]$ oc login -u admin -p redhat https://api.ocp4.e xample.com:6443
+The server uses a certificate signed by an unknown authority.
+You can bypass the certificate check, but any data you send to the server could be intercepted by others.
+Use insecure connections? (y/n): y
+
+Login successful.
+
+You have access to 58 projects, the list has been suppressed. You can list all projects with 'oc projects'
+
+Using project "default".
+Welcome! See 'oc help' to get started.
+]777;notify;Command completed;oc login -u admin -p redhat https://api.ocp4.example.com:6443]0;student@workstation:~/DO380-apps]7;file://workstation.lab.example.com/home/student/DO380-apps[student@workstation DO380-apps]$ cd ~/DO380/labs/k8s-deploy/
+]777;notify;Command completed;cd ~/DO380/labs/k8s-deploy/]0;student@workstation:~/DO380/labs/k8s-deploy]7;file://workstation.lab.example.com/home/student/DO380/labs/k8s-deploy[student@workstation k8s-deploy]$ kubectl create -f ns-and-rbac.yml
+namespace/k8s-deploy created
+rolebinding.rbac.authorization.k8s.io/hello-dev created
+]777;notify;Command completed;kubectl create -f ns-and-rbac.yml]0;student@workstation:~/DO380/labs/k8s-deploy]7;file://workstation.lab.example.com/home/student/DO380/labs/k8s-deploy[student@workstation k8s-deploy]$ oc login -u developer -p developer
+Login successful.
+
+You have one project on this server: "k8s-deploy"
+
+Using project "k8s-deploy".
+]777;notify;Command completed;oc login -u developer -p developer]0;student@workstation:~/DO380/labs/k8s-deploy]7;file://workstation.lab.example.com/home/student/DO380/labs/k8s-deploy[student@workstation k8s-deploy]$ kubectl apply -f hello.yml
+deployment.apps/hello created
+service/hello created
+ingress.extensions/hello created
+]777;notify;Command completed;kubectl apply -f hello.yml]0;student@workstation:~/DO380/labs/k8s-deploy]7;file://workstation.lab.example.com/home/student/DO380/labs/k8s-deploy[student@workstation k8s-deploy]$ kubectl get ingress
+NAME    CLASS    HOSTS                         ADDRESS   PORTS   AGE
+hello   <none>   hello.apps.ocp4.example.com             80      9s
+]777;notify;Command completed;kubectl get ingress]0;student@workstation:~/DO380/labs/k8s-deploy]7;file://workstation.lab.example.com/home/student/DO380/labs/k8s-deploy[student@workstation k8s-deploy]$ curl hello.apps.ocp4.example.com
+<html>
+  <body>
+    <h1>Hello, world from nginx!</h1>
+  </body>
+</html>
+]777;notify;Command completed;curl hello.apps.ocp4.example.com]0;student@workstation:~/DO380/labs/k8s-deploy]7;file://workstation.lab.example.com/home/student/DO380/labs/k8s-deploy[student@workstation k8s-deploy]$ oc login -u admin -p redhat
+Login successful.
+
+You have access to 59 projects, the list has been suppressed. You can list all projects with 'oc projects'
+
+Using project "k8s-deploy".
+]777;notify;Command completed;oc login -u admin -p redhat]0;student@workstation:~/DO380/labs/k8s-deploy]7;file://workstation.lab.example.com/home/student/DO380/labs/k8s-deploy[student@workstation k8s-deploy]$ kubectl create namespace k8s-deploy-prod
+namespace/k8s-deploy-prod created
+]777;notify;Command completed;kubectl create namespace k8s-deploy-prod]0;student@workstation:~/DO380/labs/k8s-deploy]7;file://workstation.lab.example.com/home/student/DO380/labs/k8s-deploy[student@workstation k8s-deploy]$ kubectl apply -k overlays/prod
+service/hello created
+deployment.apps/hello created
+ingress.extensions/hello created
+]777;notify;Command completed;kubectl apply -k overlays/prod]0;student@workstation:~/DO380/labs/k8s-deploy]7;file://workstation.lab.example.com/home/student/DO380/labs/k8s-deploy[student@workstation k8s-deploy]$ kubectl get ingress -n k8s-deploy-prod
+NAME    CLASS    HOSTS                                      ADDRESS   PORTS   AGE
+hello   <none>   deploying-practice.apps.ocp4.example.com             80      10s
+]777;notify;Command completed;kubectl get ingress -n k8s-deploy-prod]0;student@workstation:~/DO380/labs/k8s-deploy]7;file://workstation.lab.example.com/home/student/DO380/labs/k8s-deploy[student@workstation k8s-deploy]$ ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAII/yNN9tqJaaaTFBL59EzqjSFL/QaNAlpMuvX/ebyhyWP atul9806@yahoo.in
+bash: ssh-ed25519: command not found...
+]777;notify;Command completed;ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAII/yNN9tqJaaTFBL59EzqjSFL/QaNAlpMuvX/ebyhyWP atul9806@yahoo.in]0;student@workstation:~/DO380/labs/k8s-deploy]7;file://workstation.lab.example.com/home/student/DO380/labs/k8s-deploy[student@workstation k8s-deploy]$ pply -k overlays/prod
+bash: pply: command not found...
+]777;notify;Command completed;pply -k overlays/prod]0;student@workstation:~/DO380/labs/k8s-deploy]7;file://workstation.lab.example.com/home/student/DO380/labs/k8s-deploy[student@workstation k8s-deploy]$ pply -k overlays/prod[1@i[1P[C[C[1@p[1@c[1@ [1@a
+bash: pc: command not found...
+Similar commands are::
+'cp'
+'ps'
+]777;notify;Command completed;pc apply -k overlays/prod]0;student@workstation:~/DO380/labs/k8s-deploy]7;file://workstation.lab.example.com/home/student/DO380/labs/k8s-deploy[student@workstation k8s-deploy]$ pc apply -k overlays/prod[1P[1@o
+service/hello unchanged
+deployment.apps/hello configured
+ingress.extensions/hello configured
+]777;notify;Command completed;oc apply -k overlays/prod]0;student@workstation:~/DO380/labs/k8s-deploy]7;file://workstation.lab.example.com/home/student/DO380/labs/k8s-deploy[student@workstation k8s-deploy]$ cd
+]777;notify;Command completed;cd]0;student@workstation:~]7;file://workstation.lab.example.com/home/student[student@workstation ~]$ cd DO380-apps/
+]777;notify;Command completed;cd DO380-apps/]0;student@workstation:~/DO380-apps]7;file://workstation.lab.example.com/home/student/DO380-apps[student@workstation DO380-apps]$ cp -R DO[K[K../DO380/* .
+]777;notify;Command completed;cp -R ../DO380/* .]0;student@workstation:~/DO380-apps]7;file://workstation.lab.example.com/home/student/DO380-apps[student@workstation DO380-apps]$ git status
+On branch k8s-deploy
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+	[31mid_ed25519.pub[m
+	[31mlabs/[m
+	[31msolutions/[m
+	[31mtypescript[m
+
+nothing added to commit but untracked files present (use "git add" to track)
+]777;notify;Com
