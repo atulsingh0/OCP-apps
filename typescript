@@ -1,0 +1,112 @@
+Script started on 2020-12-12 11:56:38-05:00
+]777;notify;Command completed;script]0;student@workstation:~/DO380-apps]7;file://workstation.lab.example.com/home/student/DO380-apps[student@workstation DO380-apps]$ console=$(oc get route -n openshift-console console -o jsonpat h='{.spec.host}')
+echo $console]777;notify;Command completed;console=$(oc get route -n openshift-console console -o jsonpath='{.spec.host}')]0;student@workstation:~/DO380-apps]7;file://workstation.lab.example.com/home/student/DO380-apps[student@workstation DO380-apps]$ echo $console
+console-openshift-console.apps.ocp4.example.com
+]777;notify;Command completed;echo $console]0;student@workstation:~/DO380-apps]7;file://workstation.lab.example.com/home/student/DO380-apps[student@workstation DO380-apps]$ curl https://$console -k -v 2>&1 | grep 'expire date'
+*  [01;31m[Kexpire date[m[K: Oct  8 18:06:11 2022 GMT
+]777;notify;Command completed;curl https://$console -k -v 2>&1 | grep 'expire date']0;student@workstation:~/DO380-apps]7;file://workstation.lab.example.com/home/student/DO380-apps[student@workstation DO380-apps]$ clear
+[3J[H[2J]777;notify;Command completed;clear]0;student@workstation:~/DO380-apps]7;file://workstation.lab.example.com/home/student/DO380-apps[student@workstation DO380-apps]$ hosts=$(oc get route -A -o jsonpath='{.items[*].spec.host}')
+for]777;notify;Command completed;hosts=$(oc get route -A -o jsonpath='{.items[*].spec.host}')]0;student@workstation:~/DO380-apps]7;file://workstation.lab.example.com/home/student/DO380-apps[student@workstation DO380-apps]$ for host in $hosts ; do \
+> curl https://$host -k -w "%{url_effective} %{http_code}\n" -o /dev/null -s ; \
+> done
+https://oauth-openshift.apps.ocp4.example.com/ 403
+https://console-openshift-console.apps.ocp4.example.com/ 200
+https://downloads-openshift-console.apps.ocp4.example.com/ 200
+https://alertmanager-main-openshift-monitoring.apps.ocp4.example.com/ 403
+https://grafana-openshift-monitoring.apps.ocp4.example.com/ 403
+https://prometheus-k8s-openshift-monitoring.apps.ocp4.example.com/ 403
+https://thanos-querier-openshift-monitoring.apps.ocp4.example.com/ 403
+]777;notify;Command completed;for host in $hosts   do curl https://$host -k -w "%{url_effective} %{http_code}\n" -o /dev/null -s   done]0;student@workstation:~/DO380-apps]7;file://workstation.lab.example.com/home/student/DO380-apps[student@workstation DO380-apps]$ oc get oauth cluster -o json
+{
+    "apiVersion": "config.openshift.io/v1",
+    "kind": "OAuth",
+    "metadata": {
+        "creationTimestamp": "2020-10-08T18:01:50Z",
+        "generation": 2,
+        "managedFields": [
+            {
+                "apiVersion": "config.openshift.io/v1",
+                "fieldsType": "FieldsV1",
+                "fieldsV1": {
+                    "f:spec": {}
+                },
+                "manager": "cluster-version-operator",
+                "operation": "Update",
+                "time": "2020-10-08T18:01:50Z"
+            },
+            {
+                "apiVersion": "config.openshift.io/v1",
+                "fieldsType": "FieldsV1",
+                "fieldsV1": {
+                    "f:spec": {
+                        "f:identityProviders": {}
+                    }
+                },
+                "manager": "oc",
+                "operation": "Update",
+                "time": "2020-10-08T18:28:16Z"
+            }
+        ],
+        "name": "cluster",
+        "resourceVersion": "68014",
+        "selfLink": "/apis/config.openshift.io/v1/oauths/cluster",
+        "uid": "3343345a-c2f6-4f64-8843-9260f816c704"
+    },
+    "spec": {
+        "identityProviders": [
+            {
+                "htpasswd": {
+                    "fileData": {
+                        "name": "htpasswd-secret"
+                    }
+                },
+                "mappingMethod": "claim",
+                "name": "htpasswd_provider",
+                "type": "HTPasswd"
+            }
+        ]
+    }
+}
+]777;notify;Command completed;oc get oauth cluster -o json]0;student@workstation:~/DO380-apps]7;file://workstation.lab.example.com/home/student/DO380-apps[student@workstation DO380-apps]$ filter='?(.name=="htpasswd_provider")'
+]777;notify;Command completed;filter='?(.name=="htpasswd_provider")']0;student@workstation:~/DO380-apps]7;file://workstation.lab.example.com/home/student/DO380-apps[student@workstation DO380-apps]$ oc get oauth cluster \
+> -o jsonpath="{.spec.identityProviders[$filter].htpasswd.fileData.name}{'\n'}"
+htpasswd-secret
+]777;notify;Command completed;oc get oauth cluster -o jsonpath="{.spec.identityProviders[$filter].htpasswd.fileData.name}{'\n'}"]0;student@workstation:~/DO380-apps]7;file://workstation.lab.example.com/home/student/DO380-apps[student@workstation DO380-apps]$ cat < [K[K> get-users.sh
+#!/bin/sh
+
+filter='?(.name=="htpasswd_provider")'
+
+secret_name=$(oc get oauth cluster \
+  -o jsonpath="{.spec.identityProviders[$filter].htpasswd.fileData.name}")
+
+secret_file=$(oc extract secret/$secret_name -n openshift-config --confirm)
+
+cut -d : -f 1 <$secret_file
+rm $secret_file
+]777;notify;Command completed;cat > get-users.sh]0;student@workstation:~/DO380-apps]7;file://workstation.lab.example.com/home/student/DO380-apps[student@workstation DO380-apps]$ chmod ux[K+x get-users.sh 
+]777;notify;Command completed;chmod u+x get-users.sh ]0;student@workstation:~/DO380-apps]7;file://workstation.lab.example.com/home/student/DO380-apps[student@workstation DO380-apps]$ ./get-users.sh 
+admin
+developer
+]777;notify;Command completed;./get-users.sh ]0;student@workstation:~/DO380-apps]7;file://workstation.lab.example.com/home/student/DO380-apps[student@workstation DO380-apps]$ cd ~/DO380/labs/automation-resources/
+]777;notify;Command completed;cd ~/DO380/labs/automation-resources/]0;student@workstation:~/DO380/labs/automation-resources]7;file://workstation.lab.example.com/home/student/DO380/labs/automation-resources[student@workstation automation-resources]$ ./add-user.sh user1 user1
+/tmp/tmp.geftLibmgx/htpasswd
+Adding password for user user1
+secret/htpasswd-secret data updated
+Login failed (401 Unauthorized)
+Verify you have provided correct credentials.
+]777;notify;Command completed;./add-user.sh user1 user1]0;student@workstation:~/DO380/labs/automation-resources]7;file://workstation.lab.example.com/home/student/DO380/labs/automation-resources[student@workstation automation-resources]$ oc login -u user1 -p user1
+Login successful.
+
+You don't have any projects. You can try to create a new project, by running
+
+    oc new-project <projectname>
+
+]777;notify;Command completed;oc login -u user1 -p user1]0;student@workstation:~/DO380/labs/automation-resources]7;file://workstation.lab.example.com/home/student/DO380/labs/automation-resources[student@workstation automation-resources]$ oc login -u admin -p redhat
+Login successful.
+
+You have access to 58 projects, the list has been suppressed. You can list all projects with 'oc projects'
+
+Using project "default".
+]777;notify;Command completed;oc login -u admin -p redhat]0;student@workstation:~/DO380/labs/automation-resources]7;file://workstation.lab.example.com/home/student/DO380/labs/automation-resources[student@workstation automation-resources]$ exit
+
+Script done on 2020-12-12 12:03:01-05:00
