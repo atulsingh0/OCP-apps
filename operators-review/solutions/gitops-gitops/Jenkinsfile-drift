@@ -1,0 +1,29 @@
+pipeline {
+  triggers {
+    cron ('H/5 * * * *')
+  }
+  agent {
+    node {
+      label 'nodejs'
+    }
+  }
+  stages {
+    stage ('Check resource drift') {
+      steps {
+        sh 'oc diff -k config | tee drift-report.txt'
+        sh '! test -s drift-report.txt'
+      }
+    }
+  }
+  post {
+    failure {
+      archiveArtifacts artifacts: '*.txt'
+      build job: 'apply/master'
+    }
+    success {
+      sh 'rm drift-report.txt'
+      sh 'echo \'There is no configuration drift\' > no-drift.txt'
+      archiveArtifacts artifacts: '*.txt'
+    }
+  }
+}
