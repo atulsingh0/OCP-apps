@@ -1,0 +1,766 @@
+Script started on 2020-12-12 21:26:16-05:00
+]777;notify;Command completed;curl -k --header "$HEADER" -X GET https://api.ocp4.example.com:6443/apis/route.openshift.io/v1/routes |  jq '.items[].spec.host']0;student@workstation:~/DO380-apps/automation-ansible]7;file://workstation.lab.example.com/home/student/DO380-apps/automation-ansible[student@workstation automation-ansible]$ lab automation-ansible start
+
+Checking prerequisites for Guided Exercise: Writing Ansible Playbooks to Manage OpenShift Resources
+
+ Verify the OpenShift cluster is running:
+ · Router pods are available...................................  [1;36mSUCCESS[0;39m
+ · OAuth pods are available....................................  [1;36mSUCCESS[0;39m
+ · API pods are available......................................  [1;36mSUCCESS[0;39m
+ · Control plane node 'master01' is ready......................  [1;36mSUCCESS[0;39m
+ · Control plane node 'master02' is ready......................  [1;36mSUCCESS[0;39m
+ · Control plane node 'master03' is ready......................  [1;36mSUCCESS[0;39m
+
+ Checking for conflicts with existing OpenShift projects:
+ · The 'automation-ansible' project is absent..................  [1;36mSUCCESS[0;39m
+
+Setting up the classroom for Guided Exercise: Writing Ansible Playbooks to Manage OpenShift Resources
+
+
+ Preparing the student's cluster:
+ · Download exercise files.....................................  [1;36mSUCCESS[0;39m
+ · Download solution files.....................................  [1;36mSUCCESS[0;39m
+ · Modifying /etc/ansible/ansible.cfg..........................  [1;36mSUCCESS[0;39m
+
+Overall start status...........................................  [1;36mSUCCESS[0;39m
+
+]777;notify;Command completed;lab automation-ansible start]0;student@workstation:~/DO380-apps/automation-ansible]7;file://workstation.lab.example.com/home/student/DO380-apps/automation-ansible[student@workstation automation-ansible]$ cd ~/DO380/labs/automation-ansible
+]777;notify;Command completed;cd ~/DO380/labs/automation-ansible]0;student@workstation:~/DO380/labs/automation-ansible]7;file://workstation.lab.example.com/home/student/DO380/labs/automation-ansible[student@workstation automation-ansible]$ ^C
+]777;notify;Command completed;cd ~/DO380/labs/automation-ansible]0;student@workstation:~/DO380/labs/automation-ansible]7;file://workstation.lab.example.com/home/student/DO380/labs/automation-ansible[student@workstation automation-ansible]$ oc login -u developer -p developer https://api.ocp4.exampl e.com:6443
+Login successful.
+
+You don't have any projects. You can try to create a new project, by running
+
+    oc new-project <projectname>
+
+]777;notify;Command completed;oc login -u developer -p developer https://api.ocp4.example.com:6443]0;student@workstation:~/DO380/labs/automation-ansible]7;file://workstation.lab.example.com/home/student/DO380/labs/automation-ansible[student@workstation automation-ansible]$ ansible-playbook -v k8s.yml
+[0;34mUsing /etc/ansible/ansible.cfg as config file[0m
+
+PLAY [Demonstrate k8s modules] *********************************************************************
+
+TASK [Create the project] **************************************************************************
+[0;33mchanged: [localhost] => changed=true [0m
+[0;33m  method: create[0m
+[0;33m  result:[0m
+[0;33m    apiVersion: project.openshift.io/v1[0m
+[0;33m    kind: Project[0m
+[0;33m    metadata:[0m
+[0;33m      annotations:[0m
+[0;33m        openshift.io/description: ''[0m
+[0;33m        openshift.io/display-name: ''[0m
+[0;33m        openshift.io/requester: developer[0m
+[0;33m        openshift.io/sa.scc.mcs: s0:c24,c14[0m
+[0;33m        openshift.io/sa.scc.supplemental-groups: 1000580000/10000[0m
+[0;33m        openshift.io/sa.scc.uid-range: 1000580000/10000[0m
+[0;33m      creationTimestamp: '2020-12-13T02:33:34Z'[0m
+[0;33m      managedFields:[0m
+[0;33m      - apiVersion: v1[0m
+[0;33m        fieldsType: FieldsV1[0m
+[0;33m        fieldsV1:[0m
+[0;33m          f:metadata:[0m
+[0;33m            f:annotations:[0m
+[0;33m              f:openshift.io/sa.scc.mcs: {}[0m
+[0;33m              f:openshift.io/sa.scc.supplemental-groups: {}[0m
+[0;33m              f:openshift.io/sa.scc.uid-range: {}[0m
+[0;33m        manager: cluster-policy-controller[0m
+[0;33m        operation: Update[0m
+[0;33m        time: '2020-12-13T02:33:34Z'[0m
+[0;33m      - apiVersion: v1[0m
+[0;33m        fieldsType: FieldsV1[0m
+[0;33m        fieldsV1:[0m
+[0;33m          f:metadata:[0m
+[0;33m            f:annotations:[0m
+[0;33m              .: {}[0m
+[0;33m              f:openshift.io/description: {}[0m
+[0;33m              f:openshift.io/display-name: {}[0m
+[0;33m              f:openshift.io/requester: {}[0m
+[0;33m          f:status:[0m
+[0;33m            f:phase: {}[0m
+[0;33m        manager: openshift-apiserver[0m
+[0;33m        operation: Update[0m
+[0;33m        time: '2020-12-13T02:33:34Z'[0m
+[0;33m      - apiVersion: v1[0m
+[0;33m        fieldsType: FieldsV1[0m
+[0;33m        fieldsV1:[0m
+[0;33m          f:spec:[0m
+[0;33m            f:finalizers: {}[0m
+[0;33m        manager: openshift-controller-manager[0m
+[0;33m        operation: Update[0m
+[0;33m        time: '2020-12-13T02:33:34Z'[0m
+[0;33m      name: automation-ansible[0m
+[0;33m      resourceVersion: '88232'[0m
+[0;33m      selfLink: /apis/project.openshift.io/v1/projectrequests/automation-ansible[0m
+[0;33m      uid: 2f90a55d-be81-40f3-b173-31138739a94d[0m
+[0;33m    spec:[0m
+[0;33m      finalizers:[0m
+[0;33m      - kubernetes[0m
+[0;33m    status:[0m
+[0;33m      phase: Active[0m
+
+TASK [Create object from the manifest] *************************************************************
+[0;33mchanged: [localhost] => changed=true [0m
+[0;33m  result:[0m
+[0;33m    results:[0m
+[0;33m    - changed: true[0m
+[0;33m      method: create[0m
+[0;33m      result:[0m
+[0;33m        apiVersion: apps/v1[0m
+[0;33m        kind: Deployment[0m
+[0;33m        metadata:[0m
+[0;33m          creationTimestamp: '2020-12-13T02:33:35Z'[0m
+[0;33m          generation: 1[0m
+[0;33m          managedFields:[0m
+[0;33m          - apiVersion: apps/v1[0m
+[0;33m            fieldsType: FieldsV1[0m
+[0;33m            fieldsV1:[0m
+[0;33m              f:spec:[0m
+[0;33m                f:progressDeadlineSeconds: {}[0m
+[0;33m                f:replicas: {}[0m
+[0;33m                f:revisionHistoryLimit: {}[0m
+[0;33m                f:selector:[0m
+[0;33m                  f:matchLabels:[0m
+[0;33m                    .: {}[0m
+[0;33m                    f:app: {}[0m
+[0;33m                f:strategy:[0m
+[0;33m                  f:rollingUpdate:[0m
+[0;33m                    .: {}[0m
+[0;33m                    f:maxSurge: {}[0m
+[0;33m                    f:maxUnavailable: {}[0m
+[0;33m                  f:type: {}[0m
+[0;33m                f:template:[0m
+[0;33m                  f:metadata:[0m
+[0;33m                    f:labels:[0m
+[0;33m                      .: {}[0m
+[0;33m                      f:app: {}[0m
+[0;33m                  f:spec:[0m
+[0;33m                    f:containers:[0m
+[0;33m                      k:{"name":"hello"}:[0m
+[0;33m                        .: {}[0m
+[0;33m                        f:image: {}[0m
+[0;33m                        f:imagePullPolicy: {}[0m
+[0;33m                        f:name: {}[0m
+[0;33m                        f:ports:[0m
+[0;33m                          .: {}[0m
+[0;33m                          k:{"containerPort":8080,"protocol":"TCP"}:[0m
+[0;33m                            .: {}[0m
+[0;33m                            f:containerPort: {}[0m
+[0;33m                            f:protocol: {}[0m
+[0;33m                        f:resources: {}[0m
+[0;33m                        f:terminationMessagePath: {}[0m
+[0;33m                        f:terminationMessagePolicy: {}[0m
+[0;33m                    f:dnsPolicy: {}[0m
+[0;33m                    f:restartPolicy: {}[0m
+[0;33m                    f:schedulerName: {}[0m
+[0;33m                    f:securityContext: {}[0m
+[0;33m                    f:terminationGracePeriodSeconds: {}[0m
+[0;33m            manager: Swagger-Codegen[0m
+[0;33m            operation: Update[0m
+[0;33m            time: '2020-12-13T02:33:35Z'[0m
+[0;33m          name: hello[0m
+[0;33m          namespace: automation-ansible[0m
+[0;33m          resourceVersion: '88256'[0m
+[0;33m          selfLink: /apis/apps/v1/namespaces/automation-ansible/deployments/hello[0m
+[0;33m          uid: fb7e47d8-47fc-49f6-a372-7035fed3768d[0m
+[0;33m        spec:[0m
+[0;33m          progressDeadlineSeconds: 600[0m
+[0;33m          replicas: 1[0m
+[0;33m          revisionHistoryLimit: 10[0m
+[0;33m          selector:[0m
+[0;33m            matchLabels:[0m
+[0;33m              app: hello[0m
+[0;33m          strategy:[0m
+[0;33m            rollingUpdate:[0m
+[0;33m              maxSurge: 25%[0m
+[0;33m              maxUnavailable: 25%[0m
+[0;33m            type: RollingUpdate[0m
+[0;33m          template:[0m
+[0;33m            metadata:[0m
+[0;33m              creationTimestamp: null[0m
+[0;33m              labels:[0m
+[0;33m                app: hello[0m
+[0;33m            spec:[0m
+[0;33m              containers:[0m
+[0;33m              - image: quay.io/redhattraining/hello-world-nginx:v1.0[0m
+[0;33m                imagePullPolicy: IfNotPresent[0m
+[0;33m                name: hello[0m
+[0;33m                ports:[0m
+[0;33m                - containerPort: 8080[0m
+[0;33m                  protocol: TCP[0m
+[0;33m                resources: {}[0m
+[0;33m                terminationMessagePath: /dev/termination-log[0m
+[0;33m                terminationMessagePolicy: File[0m
+[0;33m              dnsPolicy: ClusterFirst[0m
+[0;33m              restartPolicy: Always[0m
+[0;33m              schedulerName: default-scheduler[0m
+[0;33m              securityContext: {}[0m
+[0;33m              terminationGracePeriodSeconds: 30[0m
+[0;33m        status: {}[0m
+[0;33m      warnings: [][0m
+[0;33m    - changed: true[0m
+[0;33m      method: create[0m
+[0;33m      result:[0m
+[0;33m        apiVersion: v1[0m
+[0;33m        kind: Service[0m
+[0;33m        metadata:[0m
+[0;33m          creationTimestamp: '2020-12-13T02:33:35Z'[0m
+[0;33m          managedFields:[0m
+[0;33m          - apiVersion: v1[0m
+[0;33m            fieldsType: FieldsV1[0m
+[0;33m            fieldsV1:[0m
+[0;33m              f:spec:[0m
+[0;33m                f:ports:[0m
+[0;33m                  .: {}[0m
+[0;33m                  k:{"port":80,"protocol":"TCP"}:[0m
+[0;33m                    .: {}[0m
+[0;33m                    f:port: {}[0m
+[0;33m                    f:protocol: {}[0m
+[0;33m                    f:targetPort: {}[0m
+[0;33m                f:selector:[0m
+[0;33m                  .: {}[0m
+[0;33m                  f:app: {}[0m
+[0;33m                f:sessionAffinity: {}[0m
+[0;33m                f:type: {}[0m
+[0;33m            manager: Swagger-Codegen[0m
+[0;33m            operation: Update[0m
+[0;33m            time: '2020-12-13T02:33:35Z'[0m
+[0;33m          name: hello[0m
+[0;33m          namespace: automation-ansible[0m
+[0;33m          resourceVersion: '88261'[0m
+[0;33m          selfLink: /api/v1/namespaces/automation-ansible/services/hello[0m
+[0;33m          uid: 0af8128f-f097-4a20-95d2-cf5950cb4d4f[0m
+[0;33m        spec:[0m
+[0;33m          clusterIP: 172.30.61.231[0m
+[0;33m          ports:[0m
+[0;33m          - port: 80[0m
+[0;33m            protocol: TCP[0m
+[0;33m            targetPort: 8080[0m
+[0;33m          selector:[0m
+[0;33m            app: hello[0m
+[0;33m          sessionAffinity: None[0m
+[0;33m          type: ClusterIP[0m
+[0;33m        status:[0m
+[0;33m          loadBalancer: {}[0m
+[0;33m      warnings: [][0m
+[0;33m    - changed: true[0m
+[0;33m      method: create[0m
+[0;33m      result:[0m
+[0;33m        apiVersion: route.openshift.io/v1[0m
+[0;33m        kind: Route[0m
+[0;33m        metadata:[0m
+[0;33m          annotations:[0m
+[0;33m            openshift.io/host.generated: 'true'[0m
+[0;33m          creationTimestamp: '2020-12-13T02:33:35Z'[0m
+[0;33m          labels:[0m
+[0;33m            app: hello[0m
+[0;33m          managedFields:[0m
+[0;33m          - apiVersion: route.openshift.io/v1[0m
+[0;33m            fieldsType: FieldsV1[0m
+[0;33m            fieldsV1:[0m
+[0;33m              f:metadata:[0m
+[0;33m                f:labels:[0m
+[0;33m                  .: {}[0m
+[0;33m                  f:app: {}[0m
+[0;33m              f:spec:[0m
+[0;33m                f:port:[0m
+[0;33m                  .: {}[0m
+[0;33m                  f:targetPort: {}[0m
+[0;33m                f:to:[0m
+[0;33m                  f:kind: {}[0m
+[0;33m                  f:name: {}[0m
+[0;33m                  f:weight: {}[0m
+[0;33m                f:wildcardPolicy: {}[0m
+[0;33m            manager: Swagger-Codegen[0m
+[0;33m            operation: Update[0m
+[0;33m            time: '2020-12-13T02:33:35Z'[0m
+[0;33m          name: hello[0m
+[0;33m          namespace: automation-ansible[0m
+[0;33m          resourceVersion: '88267'[0m
+[0;33m          selfLink: /apis/route.openshift.io/v1/namespaces/automation-ansible/routes/hello[0m
+[0;33m          uid: 61c19fb4-f115-4f13-9490-acbb33b602c1[0m
+[0;33m        spec:[0m
+[0;33m          host: hello-automation-ansible.apps.ocp4.example.com[0m
+[0;33m          port:[0m
+[0;33m            targetPort: 8080[0m
+[0;33m          to:[0m
+[0;33m            kind: Service[0m
+[0;33m            name: hello[0m
+[0;33m            weight: 100[0m
+[0;33m          wildcardPolicy: None[0m
+[0;33m        status: {}[0m
+[0;33m      warnings: [][0m
+
+TASK [Get a info about all of the pods in the namespace] *******************************************
+[0;32mok: [localhost] => changed=false [0m
+[0;32m  resources:[0m
+[0;32m  - apiVersion: v1[0m
+[0;32m    kind: Pod[0m
+[0;32m    metadata:[0m
+[0;32m      annotations:[0m
+[0;32m        openshift.io/scc: restricted[0m
+[0;32m      creationTimestamp: '2020-12-13T02:33:35Z'[0m
+[0;32m      generateName: hello-579b6c58ff-[0m
+[0;32m      labels:[0m
+[0;32m        app: hello[0m
+[0;32m        pod-template-hash: 579b6c58ff[0m
+[0;32m      managedFields:[0m
+[0;32m      - apiVersion: v1[0m
+[0;32m        fieldsType: FieldsV1[0m
+[0;32m        fieldsV1:[0m
+[0;32m          f:metadata:[0m
+[0;32m            f:generateName: {}[0m
+[0;32m            f:labels:[0m
+[0;32m              .: {}[0m
+[0;32m              f:app: {}[0m
+[0;32m              f:pod-template-hash: {}[0m
+[0;32m            f:ownerReferences:[0m
+[0;32m              .: {}[0m
+[0;32m              k:{"uid":"3c5b1dec-405d-48b5-b358-762a794aa6ff"}:[0m
+[0;32m                .: {}[0m
+[0;32m                f:apiVersion: {}[0m
+[0;32m                f:blockOwnerDeletion: {}[0m
+[0;32m                f:controller: {}[0m
+[0;32m                f:kind: {}[0m
+[0;32m                f:name: {}[0m
+[0;32m                f:uid: {}[0m
+[0;32m          f:spec:[0m
+[0;32m            f:containers:[0m
+[0;32m              k:{"name":"hello"}:[0m
+[0;32m                .: {}[0m
+[0;32m                f:image: {}[0m
+[0;32m                f:imagePullPolicy: {}[0m
+[0;32m                f:name: {}[0m
+[0;32m                f:ports:[0m
+[0;32m                  .: {}[0m
+[0;32m                  k:{"containerPort":8080,"protocol":"TCP"}:[0m
+[0;32m                    .: {}[0m
+[0;32m                    f:containerPort: {}[0m
+[0;32m                    f:protocol: {}[0m
+[0;32m                f:resources: {}[0m
+[0;32m                f:terminationMessagePath: {}[0m
+[0;32m                f:terminationMessagePolicy: {}[0m
+[0;32m            f:dnsPolicy: {}[0m
+[0;32m            f:enableServiceLinks: {}[0m
+[0;32m            f:restartPolicy: {}[0m
+[0;32m            f:schedulerName: {}[0m
+[0;32m            f:securityContext: {}[0m
+[0;32m            f:terminationGracePeriodSeconds: {}[0m
+[0;32m        manager: kube-controller-manager[0m
+[0;32m        operation: Update[0m
+[0;32m        time: '2020-12-13T02:33:35Z'[0m
+[0;32m      - apiVersion: v1[0m
+[0;32m        fieldsType: FieldsV1[0m
+[0;32m        fieldsV1:[0m
+[0;32m          f:status:[0m
+[0;32m            f:conditions:[0m
+[0;32m              k:{"type":"ContainersReady"}:[0m
+[0;32m                .: {}[0m
+[0;32m                f:lastProbeTime: {}[0m
+[0;32m                f:lastTransitionTime: {}[0m
+[0;32m                f:message: {}[0m
+[0;32m                f:reason: {}[0m
+[0;32m                f:status: {}[0m
+[0;32m                f:type: {}[0m
+[0;32m              k:{"type":"Initialized"}:[0m
+[0;32m                .: {}[0m
+[0;32m                f:lastProbeTime: {}[0m
+[0;32m                f:lastTransitionTime: {}[0m
+[0;32m                f:status: {}[0m
+[0;32m                f:type: {}[0m
+[0;32m              k:{"type":"Ready"}:[0m
+[0;32m                .: {}[0m
+[0;32m                f:lastProbeTime: {}[0m
+[0;32m                f:lastTransitionTime: {}[0m
+[0;32m                f:message: {}[0m
+[0;32m                f:reason: {}[0m
+[0;32m                f:status: {}[0m
+[0;32m                f:type: {}[0m
+[0;32m            f:containerStatuses: {}[0m
+[0;32m            f:hostIP: {}[0m
+[0;32m            f:startTime: {}[0m
+[0;32m        manager: kubelet[0m
+[0;32m        operation: Update[0m
+[0;32m        time: '2020-12-13T02:33:35Z'[0m
+[0;32m      name: hello-579b6c58ff-qfmxv[0m
+[0;32m      namespace: automation-ansible[0m
+[0;32m      ownerReferences:[0m
+[0;32m      - apiVersion: apps/v1[0m
+[0;32m        blockOwnerDeletion: true[0m
+[0;32m        controller: true[0m
+[0;32m        kind: ReplicaSet[0m
+[0;32m        name: hello-579b6c58ff[0m
+[0;32m        uid: 3c5b1dec-405d-48b5-b358-762a794aa6ff[0m
+[0;32m      resourceVersion: '88271'[0m
+[0;32m      selfLink: /api/v1/namespaces/automation-ansible/pods/hello-579b6c58ff-qfmxv[0m
+[0;32m      uid: c3cf7f67-d3cc-4308-849b-615b3fe8dc69[0m
+[0;32m    spec:[0m
+[0;32m      containers:[0m
+[0;32m      - image: quay.io/redhattraining/hello-world-nginx:v1.0[0m
+[0;32m        imagePullPolicy: IfNotPresent[0m
+[0;32m        name: hello[0m
+[0;32m        ports:[0m
+[0;32m        - containerPort: 8080[0m
+[0;32m          protocol: TCP[0m
+[0;32m        resources: {}[0m
+[0;32m        securityContext:[0m
+[0;32m          capabilities:[0m
+[0;32m            drop:[0m
+[0;32m            - KILL[0m
+[0;32m            - MKNOD[0m
+[0;32m            - SETGID[0m
+[0;32m            - SETUID[0m
+[0;32m          runAsUser: 1000590000[0m
+[0;32m        terminationMessagePath: /dev/termination-log[0m
+[0;32m        terminationMessagePolicy: File[0m
+[0;32m        volumeMounts:[0m
+[0;32m        - mountPath: /var/run/secrets/kubernetes.io/serviceaccount[0m
+[0;32m          name: default-token-wxx4x[0m
+[0;32m          readOnly: true[0m
+[0;32m      dnsPolicy: ClusterFirst[0m
+[0;32m      enableServiceLinks: true[0m
+[0;32m      imagePullSecrets:[0m
+[0;32m      - name: default-dockercfg-2ml4j[0m
+[0;32m      nodeName: worker03[0m
+[0;32m      priority: 0[0m
+[0;32m      restartPolicy: Always[0m
+[0;32m      schedulerName: default-scheduler[0m
+[0;32m      securityContext:[0m
+[0;32m        fsGroup: 1000590000[0m
+[0;32m        seLinuxOptions:[0m
+[0;32m          level: s0:c24,c19[0m
+[0;32m      serviceAccount: default[0m
+[0;32m      serviceAccountName: default[0m
+[0;32m      terminationGracePeriodSeconds: 30[0m
+[0;32m      tolerations:[0m
+[0;32m      - effect: NoExecute[0m
+[0;32m        key: node.kubernetes.io/not-ready[0m
+[0;32m        operator: Exists[0m
+[0;32m        tolerationSeconds: 300[0m
+[0;32m      - effect: NoExecute[0m
+[0;32m        key: node.kubernetes.io/unreachable[0m
+[0;32m        operator: Exists[0m
+[0;32m        tolerationSeconds: 300[0m
+[0;32m      volumes:[0m
+[0;32m      - name: default-token-wxx4x[0m
+[0;32m        secret:[0m
+[0;32m          defaultMode: 420[0m
+[0;32m          secretName: default-token-wxx4x[0m
+[0;32m    status:[0m
+[0;32m      conditions:[0m
+[0;32m      - lastProbeTime: null[0m
+[0;32m        lastTransitionTime: '2020-12-13T02:33:35Z'[0m
+[0;32m        status: 'True'[0m
+[0;32m        type: Initialized[0m
+[0;32m      - lastProbeTime: null[0m
+[0;32m        lastTransitionTime: '2020-12-13T02:33:35Z'[0m
+[0;32m        message: 'containers with unready status: [hello]'[0m
+[0;32m        reason: ContainersNotReady[0m
+[0;32m        status: 'False'[0m
+[0;32m        type: Ready[0m
+[0;32m      - lastProbeTime: null[0m
+[0;32m        lastTransitionTime: '2020-12-13T02:33:35Z'[0m
+[0;32m        message: 'containers with unready status: [hello]'[0m
+[0;32m        reason: ContainersNotReady[0m
+[0;32m        status: 'False'[0m
+[0;32m        type: ContainersReady[0m
+[0;32m      - lastProbeTime: null[0m
+[0;32m        lastTransitionTime: '2020-12-13T02:33:35Z'[0m
+[0;32m        status: 'True'[0m
+[0;32m        type: PodScheduled[0m
+[0;32m      containerStatuses:[0m
+[0;32m      - image: quay.io/redhattraining/hello-world-nginx:v1.0[0m
+[0;32m        imageID: ''[0m
+[0;32m        lastState: {}[0m
+[0;32m        name: hello[0m
+[0;32m        ready: false[0m
+[0;32m        restartCount: 0[0m
+[0;32m        started: false[0m
+[0;32m        state:[0m
+[0;32m          waiting:[0m
+[0;32m            reason: ContainerCreating[0m
+[0;32m      hostIP: 192.168.50.15[0m
+[0;32m      phase: Pending[0m
+[0;32m      qosClass: BestEffort[0m
+[0;32m      startTime: '2020-12-13T02:33:35Z'[0m
+
+TASK [Scale deployment up] *************************************************************************
+[0;33mchanged: [localhost] => changed=true [0m
+[0;33m  result:[0m
+[0;33m    apiVersion: apps/v1[0m
+[0;33m    kind: Deployment[0m
+[0;33m    metadata:[0m
+[0;33m      annotations:[0m
+[0;33m        deployment.kubernetes.io/revision: '1'[0m
+[0;33m      creationTimestamp: '2020-12-13T02:33:35Z'[0m
+[0;33m      generation: 2[0m
+[0;33m      managedFields:[0m
+[0;33m      - apiVersion: apps/v1[0m
+[0;33m        fieldsType: FieldsV1[0m
+[0;33m        fieldsV1:[0m
+[0;33m          f:spec:[0m
+[0;33m            f:progressDeadlineSeconds: {}[0m
+[0;33m            f:replicas: {}[0m
+[0;33m            f:revisionHistoryLimit: {}[0m
+[0;33m            f:selector:[0m
+[0;33m              f:matchLabels:[0m
+[0;33m                .: {}[0m
+[0;33m                f:app: {}[0m
+[0;33m            f:strategy:[0m
+[0;33m              f:rollingUpdate:[0m
+[0;33m                .: {}[0m
+[0;33m                f:maxSurge: {}[0m
+[0;33m                f:maxUnavailable: {}[0m
+[0;33m              f:type: {}[0m
+[0;33m            f:template:[0m
+[0;33m              f:metadata:[0m
+[0;33m                f:labels:[0m
+[0;33m                  .: {}[0m
+[0;33m                  f:app: {}[0m
+[0;33m              f:spec:[0m
+[0;33m                f:containers:[0m
+[0;33m                  k:{"name":"hello"}:[0m
+[0;33m                    .: {}[0m
+[0;33m                    f:image: {}[0m
+[0;33m                    f:imagePullPolicy: {}[0m
+[0;33m                    f:name: {}[0m
+[0;33m                    f:ports:[0m
+[0;33m                      .: {}[0m
+[0;33m                      k:{"containerPort":8080,"protocol":"TCP"}:[0m
+[0;33m                        .: {}[0m
+[0;33m                        f:containerPort: {}[0m
+[0;33m                        f:protocol: {}[0m
+[0;33m                    f:resources: {}[0m
+[0;33m                    f:terminationMessagePath: {}[0m
+[0;33m                    f:terminationMessagePolicy: {}[0m
+[0;33m                f:dnsPolicy: {}[0m
+[0;33m                f:restartPolicy: {}[0m
+[0;33m                f:schedulerName: {}[0m
+[0;33m                f:securityContext: {}[0m
+[0;33m                f:terminationGracePeriodSeconds: {}[0m
+[0;33m        manager: Swagger-Codegen[0m
+[0;33m        operation: Update[0m
+[0;33m        time: '2020-12-13T02:33:35Z'[0m
+[0;33m      - apiVersion: apps/v1[0m
+[0;33m        fieldsType: FieldsV1[0m
+[0;33m        fieldsV1:[0m
+[0;33m          f:metadata:[0m
+[0;33m            f:annotations:[0m
+[0;33m              .: {}[0m
+[0;33m              f:deployment.kubernetes.io/revision: {}[0m
+[0;33m          f:status:[0m
+[0;33m            f:availableReplicas: {}[0m
+[0;33m            f:conditions:[0m
+[0;33m              .: {}[0m
+[0;33m              k:{"type":"Available"}:[0m
+[0;33m                .: {}[0m
+[0;33m                f:lastTransitionTime: {}[0m
+[0;33m                f:lastUpdateTime: {}[0m
+[0;33m                f:message: {}[0m
+[0;33m                f:reason: {}[0m
+[0;33m                f:status: {}[0m
+[0;33m                f:type: {}[0m
+[0;33m              k:{"type":"Progressing"}:[0m
+[0;33m                .: {}[0m
+[0;33m                f:lastTransitionTime: {}[0m
+[0;33m                f:lastUpdateTime: {}[0m
+[0;33m                f:message: {}[0m
+[0;33m                f:reason: {}[0m
+[0;33m                f:status: {}[0m
+[0;33m                f:type: {}[0m
+[0;33m            f:observedGeneration: {}[0m
+[0;33m            f:readyReplicas: {}[0m
+[0;33m            f:replicas: {}[0m
+[0;33m            f:updatedReplicas: {}[0m
+[0;33m        manager: kube-controller-manager[0m
+[0;33m        operation: Update[0m
+[0;33m        time: '2020-12-13T02:33:48Z'[0m
+[0;33m      name: hello[0m
+[0;33m      namespace: automation-ansible[0m
+[0;33m      resourceVersion: '88391'[0m
+[0;33m      selfLink: /apis/apps/v1/namespaces/automation-ansible/deployments/hello[0m
+[0;33m      uid: fb7e47d8-47fc-49f6-a372-7035fed3768d[0m
+[0;33m    spec:[0m
+[0;33m      progressDeadlineSeconds: 600[0m
+[0;33m      replicas: 3[0m
+[0;33m      revisionHistoryLimit: 10[0m
+[0;33m      selector:[0m
+[0;33m        matchLabels:[0m
+[0;33m          app: hello[0m
+[0;33m      strategy:[0m
+[0;33m        rollingUpdate:[0m
+[0;33m          maxSurge: 25%[0m
+[0;33m          maxUnavailable: 25%[0m
+[0;33m        type: RollingUpdate[0m
+[0;33m      template:[0m
+[0;33m        metadata:[0m
+[0;33m          creationTimestamp: null[0m
+[0;33m          labels:[0m
+[0;33m            app: hello[0m
+[0;33m        spec:[0m
+[0;33m          containers:[0m
+[0;33m          - image: quay.io/redhattraining/hello-world-nginx:v1.0[0m
+[0;33m            imagePullPolicy: IfNotPresent[0m
+[0;33m            name: hello[0m
+[0;33m            ports:[0m
+[0;33m            - containerPort: 8080[0m
+[0;33m              protocol: TCP[0m
+[0;33m            resources: {}[0m
+[0;33m            terminationMessagePath: /dev/termination-log[0m
+[0;33m            terminationMessagePolicy: File[0m
+[0;33m          dnsPolicy: ClusterFirst[0m
+[0;33m          restartPolicy: Always[0m
+[0;33m          schedulerName: default-scheduler[0m
+[0;33m          securityContext: {}[0m
+[0;33m          terminationGracePeriodSeconds: 30[0m
+[0;33m    status:[0m
+[0;33m      availableReplicas: 3[0m
+[0;33m      conditions:[0m
+[0;33m      - lastTransitionTime: '2020-12-13T02:33:48Z'[0m
+[0;33m        lastUpdateTime: '2020-12-13T02:33:48Z'[0m
+[0;33m        message: Deployment has minimum availability.[0m
+[0;33m        reason: MinimumReplicasAvailable[0m
+[0;33m        status: 'True'[0m
+[0;33m        type: Available[0m
+[0;33m      - lastTransitionTime: '2020-12-13T02:33:35Z'[0m
+[0;33m        lastUpdateTime: '2020-12-13T02:33:48Z'[0m
+[0;33m        message: ReplicaSet "hello-579b6c58ff" has successfully progressed.[0m
+[0;33m        reason: NewReplicaSetAvailable[0m
+[0;33m        status: 'True'[0m
+[0;33m        type: Progressing[0m
+[0;33m      observedGeneration: 2[0m
+[0;33m      readyReplicas: 3[0m
+[0;33m      replicas: 3[0m
+[0;33m      updatedReplicas: 3[0m
+
+TASK [Get hostname of the route] *******************************************************************
+[0;32mok: [localhost] => changed=false [0m
+[0;32m  resources:[0m
+[0;32m  - apiVersion: route.openshift.io/v1[0m
+[0;32m    kind: Route[0m
+[0;32m    metadata:[0m
+[0;32m      annotations:[0m
+[0;32m        openshift.io/host.generated: 'true'[0m
+[0;32m      creationTimestamp: '2020-12-13T02:33:35Z'[0m
+[0;32m      labels:[0m
+[0;32m        app: hello[0m
+[0;32m      managedFields:[0m
+[0;32m      - apiVersion: route.openshift.io/v1[0m
+[0;32m        fieldsType: FieldsV1[0m
+[0;32m        fieldsV1:[0m
+[0;32m          f:metadata:[0m
+[0;32m            f:labels:[0m
+[0;32m              .: {}[0m
+[0;32m              f:app: {}[0m
+[0;32m          f:spec:[0m
+[0;32m            f:port:[0m
+[0;32m              .: {}[0m
+[0;32m              f:targetPort: {}[0m
+[0;32m            f:to:[0m
+[0;32m              f:kind: {}[0m
+[0;32m              f:name: {}[0m
+[0;32m              f:weight: {}[0m
+[0;32m            f:wildcardPolicy: {}[0m
+[0;32m        manager: Swagger-Codegen[0m
+[0;32m        operation: Update[0m
+[0;32m        time: '2020-12-13T02:33:35Z'[0m
+[0;32m      - apiVersion: route.openshift.io/v1[0m
+[0;32m        fieldsType: FieldsV1[0m
+[0;32m        fieldsV1:[0m
+[0;32m          f:status:[0m
+[0;32m            f:ingress: {}[0m
+[0;32m        manager: openshift-router[0m
+[0;32m        operation: Update[0m
+[0;32m        time: '2020-12-13T02:33:35Z'[0m
+[0;32m      name: hello[0m
+[0;32m      namespace: automation-ansible[0m
+[0;32m      resourceVersion: '88280'[0m
+[0;32m      selfLink: /apis/route.openshift.io/v1/namespaces/automation-ansible/routes/hello[0m
+[0;32m      uid: 61c19fb4-f115-4f13-9490-acbb33b602c1[0m
+[0;32m    spec:[0m
+[0;32m      host: hello-automation-ansible.apps.ocp4.example.com[0m
+[0;32m      port:[0m
+[0;32m        targetPort: 8080[0m
+[0;32m      to:[0m
+[0;32m        kind: Service[0m
+[0;32m        name: hello[0m
+[0;32m        weight: 100[0m
+[0;32m      wildcardPolicy: None[0m
+[0;32m    status:[0m
+[0;32m      ingress:[0m
+[0;32m      - conditions:[0m
+[0;32m        - lastTransitionTime: '2020-12-13T02:33:35Z'[0m
+[0;32m          status: 'True'[0m
+[0;32m          type: Admitted[0m
+[0;32m        host: hello-automation-ansible.apps.ocp4.example.com[0m
+[0;32m        routerCanonicalHostname: apps.ocp4.example.com[0m
+[0;32m        routerName: default[0m
+[0;32m        wildcardPolicy: None[0m
+
+TASK [Test access to the app] **********************************************************************
+[0;32mok: [localhost] => changed=false [0m
+[0;32m  accept_ranges: bytes[0m
+[0;32m  attempts: 1[0m
+[0;32m  cache_control: private[0m
+[0;32m  connection: close[0m
+[0;32m  content: |-[0m
+[0;32m    <html>[0m
+[0;32m      <body>[0m
+[0;32m        <h1>Hello, world from nginx!</h1>[0m
+[0;32m      </body>[0m
+[0;32m    </html>[0m
+[0;32m  content_length: '72'[0m
+[0;32m  content_type: text/html[0m
+[0;32m  cookies:[0m
+[0;32m    7d62ea382e21917fcc6e664e4f141886: e62964940627bed213d976be1e4702ad[0m
+[0;32m  cookies_string: 7d62ea382e21917fcc6e664e4f141886=e62964940627bed213d976be1e4702ad[0m
+[0;32m  date: Sun, 13 Dec 2020 02:33:49 GMT[0m
+[0;32m  elapsed: 0[0m
+[0;32m  etag: '"5d13ef79-48"'[0m
+[0;32m  last_modified: Wed, 26 Jun 2019 22:19:37 GMT[0m
+[0;32m  msg: OK (72 bytes)[0m
+[0;32m  redirected: false[0m
+[0;32m  server: nginx/1.14.1[0m
+[0;32m  set_cookie: 7d62ea382e21917fcc6e664e4f141886=e62964940627bed213d976be1e4702ad; path=/; HttpOnly[0m
+[0;32m  status: 200[0m
+[0;32m  url: http://hello-automation-ansible.apps.ocp4.example.com[0m
+
+TASK [Display response of the application] *********************************************************
+[0;32mok: [localhost] => [0m
+[0;32m  response.content: |-[0m
+[0;32m    <html>[0m
+[0;32m      <body>[0m
+[0;32m        <h1>Hello, world from nginx!</h1>[0m
+[0;32m      </body>[0m
+[0;32m    </html>[0m
+
+PLAY RECAP *****************************************************************************************
+[0;33mlocalhost[0m                  : [0;32mok=7   [0m [0;33mchanged=3   [0m unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+]777;notify;Command completed;ansible-playbook -v k8s.yml]0;student@workstation:~/DO380/labs/automation-ansible]7;file://workstation.lab.example.com/home/student/DO380/labs/automation-ansible[student@workstation automation-ansible]$ oc project automation-ansible
+Now using project "automation-ansible" on server "https://api.ocp4.example.com:6443".
+]777;notify;Command completed;oc project automation-ansible]0;student@workstation:~/DO380/labs/automation-ansible]7;file://workstation.lab.example.com/home/student/DO380/labs/automation-ansible[student@workstation automation-ansible]$ oc get l[Kall
+NAME                         READY   STATUS    RESTARTS   AGE
+pod/hello-579b6c58ff-djnmw   1/1     Running   0          28s
+pod/hello-579b6c58ff-g9rc7   1/1     Running   0          28s
+pod/hello-579b6c58ff-qfmxv   1/1     Running   0          30s
+
+NAME            TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE
+service/hello   ClusterIP   172.30.61.231   <none>        80/TCP    30s
+
+NAME                    READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/hello   3/3     3            3           30s
+
+NAME                               DESIRED   CURRENT   READY   AGE
+replicaset.apps/hello-579b6c58ff   3         3         3       30s
+
+NAME                             HOST/PORT                                        PATH   SERVICES   PORT   TERMINATION   WILDCARD
+route.route.openshift.io/hello   hello-automation-ansible.apps.ocp4.example.com          hello      8080                 None
+]777;notify;Command completed;oc get all]0;student@workstation:~/DO380/labs/automation-ansible]7;file://workstation.lab.example.com/home/student/DO380/labs/automation-ansible[student@workstation automation-ansible]$ curl \
+> > hello-automation-ansible.apps.ocp4.example.com[1P hello-automation-ansible.apps.ocp4.example.com[C[C
+<html>
+  <body>
+    <h1>Hello, world from nginx!</h1>
+  </body>
+</html>
+]777;notify;Command completed;curl  hello-automation-ansible.apps.ocp4.example.com]0;student@workstation:~/DO380/labs/automation-ansible]7;file://workstation.lab.example.com/home/student/DO380/labs/automation-ansible[student@workstation automation-ansible]$ exit
+
+Script done on 2020-12-12 21:34:24-05:00
