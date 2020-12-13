@@ -1,0 +1,104 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: openshift-cluster-machine-approver
+  name: machine-approver
+  labels:
+    app: machine-approver
+    machine-approver: "true"
+  annotations:
+    exclude.release.openshift.io/internal-openshift-hosted: "true"
+spec:
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: machine-approver
+  template:
+    metadata:
+      name: machine-approver
+      labels:
+        app: machine-approver
+    spec:
+      hostNetwork: true
+      serviceAccountName: machine-approver-sa
+      containers:
+      - args:
+        - --secure-listen-address=0.0.0.0:9192
+        - --upstream=http://127.0.0.1:9191/
+        - --tls-cert-file=/etc/tls/private/tls.crt
+        - --tls-private-key-file=/etc/tls/private/tls.key
+        - --config-file=/etc/kube-rbac-proxy/config-file.yaml
+        - --logtostderr=true
+        - --v=10
+        image: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:ad615288c896550a8fc5988424d7ec944e3c15dc22c94654efe0eba77cdfdff4
+        imagePullPolicy: IfNotPresent
+        name: kube-rbac-proxy
+        ports:
+        - containerPort: 9192
+          name: https
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        resources:
+          requests:
+            memory: 20Mi
+            cpu: 10m
+        volumeMounts:
+        - mountPath: /etc/kube-rbac-proxy
+          name: auth-proxy-config
+        - mountPath: /etc/tls/private
+          name: machine-approver-tls
+      - name: machine-approver-controller
+        image: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:1d50deb1a92dd12a290d9c7f3ec50abb00032b8cab80bc86ff174d214cc7f4e7
+        imagePullPolicy: IfNotPresent
+        command: ["/usr/bin/machine-approver"]
+        args:
+        - "--config=/var/run/configmaps/config/config.yaml"
+        - "-v=2"
+        - "--logtostderr"
+        resources:
+          requests:
+            memory: 50Mi
+            cpu: 10m
+        volumeMounts:
+        - mountPath: /var/run/configmaps/config
+          name: config
+        env:
+        - name: RELEASE_VERSION
+          value: "4.5.4"
+        - name: KUBERNETES_SERVICE_PORT
+          value: "6443"
+        - name: KUBERNETES_SERVICE_HOST
+          value: "127.0.0.1"
+        - name: METRICS_PORT
+          value: "9191"
+        terminationMessagePolicy: FallbackToLogsOnError
+      volumes:
+      - configMap:
+          name: kube-rbac-proxy
+        name: auth-proxy-config
+      - name: machine-approver-tls
+        secret:
+          secretName: machine-approver-tls
+      - name: config
+        configMap:
+          defaultMode: 440
+          name: machine-approver-config
+          optional: true
+      nodeSelector:
+        node-role.kubernetes.io/master: ""
+      priorityClassName: "system-cluster-critical"
+      tolerations:
+      - key: node-role.kubernetes.io/master  # Just tolerate NoSchedule taint on master node. If there are other conditions like disk-pressure etc, let's not schedule the control-plane pods onto that node.
+        operator: Exists
+        effect: "NoSchedule"
+      - key: "node.kubernetes.io/unreachable"
+        operator: "Exists"
+        effect: "NoExecute"
+        tolerationSeconds: 120 # Evict pods within 2 mins.
+      - key: "node.kubernetes.io/not-ready"
+        operator: "Exists"
+        effect: "NoExecute"
+        tolerationSeconds: 120 # Evict pods within 2 mins.

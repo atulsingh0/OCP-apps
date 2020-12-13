@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: openshift-kube-storage-version-migrator-operator
+  name: kube-storage-version-migrator-operator
+  labels:
+    app: kube-storage-version-migrator-operator
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: kube-storage-version-migrator-operator
+  template:
+    metadata:
+      name: kube-storage-version-migrator-operator
+      labels:
+        app: kube-storage-version-migrator-operator
+    spec:
+      serviceAccountName: kube-storage-version-migrator-operator
+      containers:
+      - name: kube-storage-version-migrator-operator
+        terminationMessagePolicy: FallbackToLogsOnError
+        image: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:5c513d16bbccf8361c6f3ad5af54831bd24a897fb374a3e640688687248c6333
+        ports:
+        - containerPort: 8443
+          name: metrics
+          protocol: TCP
+        command: ["cluster-kube-storage-version-migrator-operator", "start"]
+        args:
+          - "--config=/var/run/configmaps/config/config.yaml"
+        resources:
+          requests:
+            memory: 50Mi
+            cpu: 10m
+        volumeMounts:
+          - mountPath: /var/run/configmaps/config
+            name: config
+          - mountPath: /var/run/secrets/serving-cert
+            name: serving-cert
+        env:
+        - name: IMAGE
+          value: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:763d2be9190b0668d94ea715e12f2adc463aa633e1cc3b343b7132cb6b6d7d24
+        - name: OPERATOR_IMAGE
+          value: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:5c513d16bbccf8361c6f3ad5af54831bd24a897fb374a3e640688687248c6333
+        - name: OPERATOR_IMAGE_VERSION
+          value: "4.5.4"
+        - name: OPERAND_IMAGE_VERSION
+          value: "4.5.4"
+      volumes:
+        - name: serving-cert
+          secret:
+            secretName: serving-cert
+            optional: true
+        - name: config
+          configMap:
+            name: config
+      nodeSelector:
+        node-role.kubernetes.io/master: ""
+      priorityClassName: "system-cluster-critical"
+      tolerations:
+      - key: "node-role.kubernetes.io/master"
+        operator: "Exists"
+        effect: "NoSchedule"
+      - key: "node.kubernetes.io/unreachable"
+        operator: "Exists"
+        effect: "NoExecute"
+        tolerationSeconds: 120
+      - key: "node.kubernetes.io/not-ready"
+        operator: "Exists"
+        effect: "NoExecute"
+        tolerationSeconds: 120

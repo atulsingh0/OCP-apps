@@ -1,0 +1,27 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: kube-controller-manager-operator
+  namespace: openshift-kube-controller-manager-operator
+  annotations:
+    exclude.release.openshift.io/internal-openshift-hosted: "true"
+spec:
+  groups:
+    - name: cluster-version
+      rules:
+        - alert: PodDisruptionBudgetAtLimit
+          annotations:
+            message: The pod disruption budget is preventing further disruption to pods because it is at the minimum allowed level.
+          expr: |
+            max by(namespace, poddisruptionbudget) (kube_poddisruptionbudget_status_expected_pods == kube_poddisruptionbudget_status_desired_healthy)
+          for: 15m
+          labels:
+            severity: warning
+        - alert: PodDisruptionBudgetLimit
+          annotations:
+            message: The pod disruption budget is below the minimum number allowed pods.
+          expr: |
+            max by (namespace, poddisruptionbudget) (kube_poddisruptionbudget_status_expected_pods < kube_poddisruptionbudget_status_desired_healthy)
+          for: 15m
+          labels:
+            severity: critical

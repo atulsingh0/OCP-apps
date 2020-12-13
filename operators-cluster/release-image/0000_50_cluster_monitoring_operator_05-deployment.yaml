@@ -1,0 +1,102 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cluster-monitoring-operator
+  namespace: openshift-monitoring
+  labels:
+    app: cluster-monitoring-operator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cluster-monitoring-operator
+  template:
+    metadata:
+      labels:
+        app: cluster-monitoring-operator
+    spec:
+      serviceAccountName: cluster-monitoring-operator
+      nodeSelector:
+        beta.kubernetes.io/os: linux
+        node-role.kubernetes.io/master: ""
+      priorityClassName: "system-cluster-critical"
+      tolerations:
+      - key: "node.kubernetes.io/memory-pressure"
+        operator: "Exists"
+        effect: "NoSchedule"
+      - key: "node-role.kubernetes.io/master"
+        operator: "Exists"
+        effect: "NoSchedule"
+      - key: "node.kubernetes.io/unreachable"
+        operator: "Exists"
+        effect: "NoExecute"
+        tolerationSeconds: 120
+      - key: "node.kubernetes.io/not-ready"
+        operator: "Exists"
+        effect: "NoExecute"
+        tolerationSeconds: 120
+      volumes:
+      - name: telemetry-config
+        configMap:
+          name: telemetry-config
+      - name: cluster-monitoring-operator-tls
+        secret:
+          secretName: cluster-monitoring-operator-tls
+          optional: true
+      containers:
+      - args:
+        - --logtostderr
+        - --secure-listen-address=:8443
+        - --tls-cipher-suites=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_RSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256
+        - --upstream=http://127.0.0.1:8080/
+        - --tls-cert-file=/etc/tls/private/tls.crt
+        - --tls-private-key-file=/etc/tls/private/tls.key
+        image: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:ad615288c896550a8fc5988424d7ec944e3c15dc22c94654efe0eba77cdfdff4
+        name: kube-rbac-proxy
+        ports:
+        - containerPort: 8443
+          name: https
+        resources:
+          requests:
+            cpu: 1m
+            memory: 20Mi
+        terminationMessagePolicy: FallbackToLogsOnError
+        volumeMounts:
+        - mountPath: /etc/tls/private
+          name: cluster-monitoring-operator-tls
+          readOnly: false
+      - args:
+        - "-namespace=openshift-monitoring"
+        - "-namespace-user-workload=openshift-user-workload-monitoring"
+        - "-configmap=cluster-monitoring-config"
+        - "-release-version=$(RELEASE_VERSION)"
+        - "-logtostderr=true"
+        - "-v=3"
+        - "-images=prometheus-operator=quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:bb55be633a251d919531fcf6af3e538ed59d95aadcbe70ceebb8e74478449380"
+        - "-images=prometheus-config-reloader=quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:6eba6a52946087a3fd7c9af48d326d32bb04117414c215f92df466bb75dae78d"
+        - "-images=configmap-reloader=quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:3e6c1be4bf82cc185063581a9cec50ac967e4be67b3eed311e5d6fd5a9e5d708"
+        - "-images=prometheus=quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:e2465c406a46ade279f12d6e1f9b141da884ab383ac234009be4264a0b9db541"
+        - "-images=alertmanager=quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:e500d8dbd8f13b27682faf1caf9325d8198d2e3b15c79d01b01f351a198b698f"
+        - "-images=grafana=quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:0ba89578b5483be9f47b8c2976de9d5d73a3a007d6c9fd379e7e59426815ca4f"
+        - "-images=oauth-proxy=quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:21c49efa4fd9a4c6747c32cc6b2b0f877694d3fa5b3d3f66230129e603b152f0"
+        - "-images=node-exporter=quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:25438935f70ed5db15d7f6fd1674c4b7fed76f9618ad35ffea5e0e70d16b986b"
+        - "-images=kube-state-metrics=quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:d0b2deb946a1afd70222283f398b04ea605e826dea6dccd8441def22271aec71"
+        - "-images=openshift-state-metrics=quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:5700ae333d49f50cfa4460aa05e36f9c057fc5cd3f0e760a2bdca923fe59b2ad"
+        - "-images=kube-rbac-proxy=quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:ad615288c896550a8fc5988424d7ec944e3c15dc22c94654efe0eba77cdfdff4"
+        - "-images=telemeter-client=quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:7f55390c238234d972bc2f76f720ae8c8a8d4b87c92b04bdc8014e81530fd26e"
+        - "-images=prom-label-proxy=quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:675148ca0498906f7496563a04c92030ef6c913a51b181d1b17e1dcd4fb3d579"
+        - "-images=k8s-prometheus-adapter=quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:d2749120eb02fd5da666b89a3dd5e3a8c2e7d5dade9100c00aec0eedb0bdce9a"
+        - "-images=thanos=quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:6f87966cc9a1ad43280100cf953bad4046be93a498770f57db30d1a7561529bb"
+        env:
+        - name: RELEASE_VERSION
+          value: "4.5.4"
+        image: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:dc4c3ff67edf65afc8d022bc6535e44894f2d713367b0558d15ccf369f79f882
+        name: cluster-monitoring-operator
+        resources:
+          requests:
+            cpu: 10m
+            memory: 50Mi
+        terminationMessagePolicy: FallbackToLogsOnError
+        volumeMounts:
+        - mountPath: /etc/cluster-monitoring-operator/telemetry
+          name: telemetry-config

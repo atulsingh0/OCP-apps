@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: openshift-cluster-storage-operator
+  name: csi-snapshot-controller-operator
+  labels:
+    app: csi-snapshot-controller-operator
+  annotations:
+    config.openshift.io/inject-proxy: operator
+    exclude.release.openshift.io/internal-openshift-hosted: "true"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: csi-snapshot-controller-operator
+  template:
+    metadata:
+      name: csi-snapshot-controller-operator
+      labels:
+        app: csi-snapshot-controller-operator
+    spec:
+      serviceAccountName: csi-snapshot-controller-operator
+      containers:
+      - name: operator
+        image: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:08098ccf17bb74420d2ef3faf2638717b24324a5ba50183b06278e32eacea23f
+        imagePullPolicy: IfNotPresent
+        resources:
+          requests:
+            memory: 50Mi
+            cpu: 10m
+        args: [ "start", "-v", "5" , "--config=/var/run/configmaps/config/operator-config.yaml"]
+        env:
+        - name: OPERAND_IMAGE
+          value: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:331121562e985265d9ce51807d58b6806087528242d0aa10b980a287bea89314
+        - name: OPERATOR_IMAGE_VERSION
+          value: "4.5.4"
+        - name: OPERAND_IMAGE_VERSION
+          value: "4.5.4"
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        terminationMessagePolicy: FallbackToLogsOnError
+        volumeMounts:
+        - mountPath: /var/run/configmaps/config
+          name: config
+      volumes:
+      - name: config
+        configMap:
+          defaultMode: 440
+          name: csi-snapshot-controller-operator-config
+      priorityClassName: "system-cluster-critical"
+      tolerations:
+      - key: "node.kubernetes.io/unreachable"
+        operator: "Exists"
+        effect: "NoExecute"
+        tolerationSeconds: 120
+      - key: "node.kubernetes.io/not-ready"
+        operator: "Exists"
+        effect: "NoExecute"
+        tolerationSeconds: 120

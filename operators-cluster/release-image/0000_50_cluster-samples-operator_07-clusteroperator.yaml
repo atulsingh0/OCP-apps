@@ -1,0 +1,9 @@
+apiVersion: config.openshift.io/v1
+kind: ClusterOperator
+metadata:
+  name: openshift-samples
+spec: {}
+status:
+  versions:
+    - name: operator
+      version: "4.5.4"

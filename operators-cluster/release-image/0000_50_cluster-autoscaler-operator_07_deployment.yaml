@@ -1,0 +1,110 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cluster-autoscaler-operator
+  namespace: openshift-machine-api
+  labels:
+    k8s-app: cluster-autoscaler-operator
+  annotations:
+    exclude.release.openshift.io/internal-openshift-hosted: "true"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      k8s-app: cluster-autoscaler-operator
+  template:
+    metadata:
+      labels:
+        k8s-app: cluster-autoscaler-operator
+    spec:
+      priorityClassName: system-node-critical
+      serviceAccountName: cluster-autoscaler-operator
+      containers:
+      - name: kube-rbac-proxy
+        args:
+        - --secure-listen-address=0.0.0.0:9192
+        - --upstream=http://127.0.0.1:9191/
+        - --tls-cert-file=/etc/tls/private/tls.crt
+        - --tls-private-key-file=/etc/tls/private/tls.key
+        - --config-file=/etc/kube-rbac-proxy/config-file.yaml
+        - --logtostderr=true
+        - --v=10
+        image: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:ad615288c896550a8fc5988424d7ec944e3c15dc22c94654efe0eba77cdfdff4
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 9192
+          name: metrics
+          protocol: TCP
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        resources:
+          requests:
+            memory: 20Mi
+            cpu: 10m
+        volumeMounts:
+        - name: auth-proxy-config
+          mountPath: /etc/kube-rbac-proxy
+          readOnly: true
+        - name: cert
+          mountPath: /etc/tls/private
+          readOnly: true
+      - name: cluster-autoscaler-operator
+        image: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:e48441160bc7e57d56367a3aa73240aed0255f78f1bd2d3a1c895a8445468fe2
+        command:
+        - cluster-autoscaler-operator
+        args:
+        - -alsologtostderr
+        env:
+        - name: RELEASE_VERSION
+          value: "4.5.4"
+        - name: WATCH_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: CLUSTER_AUTOSCALER_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: LEADER_ELECTION_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: CLUSTER_AUTOSCALER_IMAGE
+          value: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:a38fbade81dfbd258a0c42c92d18a5ebe48cc018db7f2961fe1ab38fab3927ac
+        - name: WEBHOOKS_CERT_DIR
+          value: /etc/cluster-autoscaler-operator/tls
+        - name: WEBHOOKS_PORT
+          value: "8443"
+        - name: METRICS_PORT
+          value: "9191"
+        ports:
+        - containerPort: 8443
+        resources:
+          requests:
+            cpu: 20m
+            memory: 50Mi
+        volumeMounts:
+        - name: cert
+          mountPath: /etc/cluster-autoscaler-operator/tls
+          readOnly: true
+        terminationMessagePolicy: FallbackToLogsOnError
+      volumes:
+      - name: cert
+        secret:
+          secretName: cluster-autoscaler-operator-cert
+          items:
+          - key: tls.crt
+            path: tls.crt
+          - key: tls.key
+            path: tls.key
+      - name: auth-proxy-config
+        configMap:
+          name: kube-rbac-proxy-cluster-autoscaler-operator
+      nodeSelector:
+        node-role.kubernetes.io/master: ""
+      restartPolicy: Always
+      tolerations:
+      - key: "node-role.kubernetes.io/master"
+        operator: "Exists"
+        effect: "NoSchedule"

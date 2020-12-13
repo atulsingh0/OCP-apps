@@ -1,0 +1,101 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cluster-image-registry-operator
+  namespace: openshift-image-registry
+  annotations:
+    config.openshift.io/inject-proxy: cluster-image-registry-operator 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: cluster-image-registry-operator
+  template:
+    metadata:
+      labels:
+        name: cluster-image-registry-operator
+    spec:
+      serviceAccountName: cluster-image-registry-operator
+      shareProcessNamespace: true
+      priorityClassName: system-cluster-critical
+      nodeSelector:
+        node-role.kubernetes.io/master: ""
+      tolerations:
+      - effect: NoSchedule
+        key: node-role.kubernetes.io/master
+        operator: Exists
+      - key: "node.kubernetes.io/unreachable"
+        operator: "Exists"
+        effect: "NoExecute"
+        tolerationSeconds: 120
+      - key: "node.kubernetes.io/not-ready"
+        operator: "Exists"
+        effect: "NoExecute"
+        tolerationSeconds: 120
+      containers:
+        - name: cluster-image-registry-operator
+          image: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:8acb145e5bf202bc51aad22dfbb17bca0889e58d23edac0c308fc7b7ceba4f6c
+          ports:
+          - containerPort: 60000
+            name: metrics
+          imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              cpu: 10m
+          env:
+            - name: RELEASE_VERSION
+              value: "4.5.4"
+            - name: WATCH_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: OPERATOR_NAME
+              value: "cluster-image-registry-operator"
+            - name: IMAGE
+              value: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:d0110895ef6e1c6cb9d7f2250ecd3d16e927711b91c6cc6c35ec49d0906ebbc6
+            - name: IMAGE_PRUNER
+              value: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:ddf1330bf78848849738ba17ae256ec2fb6d6ebe357f8857eefad913d4081eed
+          volumeMounts:
+            - name: trusted-ca
+              mountPath: /var/run/configmaps/trusted-ca/
+            - name: image-registry-operator-tls
+              mountPath: /etc/secrets
+        - name: cluster-image-registry-operator-watch
+          image: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:8acb145e5bf202bc51aad22dfbb17bca0889e58d23edac0c308fc7b7ceba4f6c
+          command:
+          - cluster-image-registry-operator-watch
+          args:
+          - file-watcher-watchdog
+          - --namespace=$(POD_NAMESPACE)
+          - --process-name=cluster-image-registry-operator
+          - --termination-grace-period=30s
+          - --files=/var/run/configmaps/trusted-ca/tls-ca-bundle.pem
+          - --files=/etc/secrets/tls.crt
+          - --files=/etc/secrets/tls.key
+          imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              cpu: 10m
+          env:
+          - name: POD_NAME
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.name
+          - name: POD_NAMESPACE
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+      volumes:
+        - name: image-registry-operator-tls
+          secret:
+            secretName: image-registry-operator-tls
+        - name: trusted-ca
+          configMap:
+            name: trusted-ca
+            optional: true
+            items:
+            - key: ca-bundle.crt
+              path: tls-ca-bundle.pem

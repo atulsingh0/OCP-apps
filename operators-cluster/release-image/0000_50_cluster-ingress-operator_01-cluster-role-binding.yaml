@@ -1,0 +1,13 @@
+# Binds the operator cluster role to its Service Account.
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: openshift-ingress-operator
+subjects:
+- kind: ServiceAccount
+  name: ingress-operator
+  namespace: openshift-ingress-operator
+roleRef:
+  kind: ClusterRole
+  apiGroup: rbac.authorization.k8s.io
+  name: openshift-ingress-operator

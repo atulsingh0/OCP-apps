@@ -1,0 +1,27 @@
+apiVersion: config.openshift.io/v1
+kind: ClusterOperator
+metadata:
+  name: etcd
+  annotations:
+    exclude.release.openshift.io/internal-openshift-hosted: "true"
+spec: {}
+status:
+  versions:
+  - name: operator
+    version: "4.5.4"
+  relatedObjects:
+    - group: operator.openshift.io
+      name: cluster
+      resource: etcds
+    - group: ""
+      name: openshift-config
+      resource: namespaces
+    - group: ""
+      name: openshift-config-managed
+      resource: namespaces
+    - group: ""
+      name: openshift-etcd-operator
+      resource: namespaces
+    - group: ""
+      name: openshift-etcd
+      resource: namespaces

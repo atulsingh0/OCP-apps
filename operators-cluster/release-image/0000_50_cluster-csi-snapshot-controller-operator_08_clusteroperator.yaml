@@ -1,0 +1,13 @@
+apiVersion: config.openshift.io/v1
+kind: ClusterOperator
+metadata:
+  name: csi-snapshot-controller
+  annotations:
+    exclude.release.openshift.io/internal-openshift-hosted: "true"
+status:
+  versions:
+  - name: operator
+    version: "4.5.4"
+  - name: csi-snapshot-controller
+    version: "4.5.4"
+spec: {}

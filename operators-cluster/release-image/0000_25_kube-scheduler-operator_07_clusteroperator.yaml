@@ -1,0 +1,15 @@
+apiVersion: config.openshift.io/v1
+kind: ClusterOperator
+metadata:
+  name: kube-scheduler
+  annotations:
+    exclude.release.openshift.io/internal-openshift-hosted: "true"
+spec: {}
+status:
+  versions:
+  - name: operator
+    version: "4.5.4"
+  - name: raw-internal
+    version: "4.5.4"
+  - name: kube-scheduler
+    version: "1.18.3"

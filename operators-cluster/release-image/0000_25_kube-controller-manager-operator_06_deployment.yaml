@@ -1,0 +1,82 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: openshift-kube-controller-manager-operator
+  name: kube-controller-manager-operator
+  labels:
+    app: kube-controller-manager-operator
+  annotations:
+    exclude.release.openshift.io/internal-openshift-hosted: "true"
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: kube-controller-manager-operator
+  template:
+    metadata:
+      name: kube-controller-manager-operator
+      labels:
+        app: kube-controller-manager-operator
+    spec:
+      serviceAccountName: kube-controller-manager-operator
+      containers:
+      - name: kube-controller-manager-operator
+        image: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:44b5be06b5e23d7e8abc09db704bc2afa1eb43290569a6fd8b568e069503878f
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8443
+          name: metrics
+          protocol: TCP
+        command: ["cluster-kube-controller-manager-operator", "operator"]
+        args:
+        - "--config=/var/run/configmaps/config/config.yaml"
+        resources:
+          requests:
+            memory: 50Mi
+            cpu: 10m
+        volumeMounts:
+        - mountPath: /var/run/configmaps/config
+          name: config
+        - mountPath: /var/run/secrets/serving-cert
+          name: serving-cert
+        env:
+        - name: IMAGE
+          value: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:3ef7d3d15d47d6b4a079a8ef3ec033025494e05c8852731db1ec010365a5b90e
+        - name: OPERATOR_IMAGE
+          value: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:44b5be06b5e23d7e8abc09db704bc2afa1eb43290569a6fd8b568e069503878f
+        - name: CLUSTER_POLICY_CONTROLLER_IMAGE
+          value: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:e624cab04bc10b9cb25702f9fc578f4a0d9c302cc72bda1f308fb9582b7e4099
+        - name: OPERATOR_IMAGE_VERSION
+          value: "4.5.4"
+        - name: OPERAND_IMAGE_VERSION
+          value: "1.18.3"
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        terminationMessagePolicy: FallbackToLogsOnError
+      volumes:
+      - name: serving-cert
+        secret:
+          secretName: kube-controller-manager-operator-serving-cert
+          optional: true
+      - name: config
+        configMap:
+          name: kube-controller-manager-operator-config
+      nodeSelector:
+        node-role.kubernetes.io/master: ""
+      priorityClassName: "system-cluster-critical"
+      tolerations:
+      - key: "node-role.kubernetes.io/master"
+        operator: "Exists"
+        effect: "NoSchedule"
+      - key: "node.kubernetes.io/unreachable"
+        operator: "Exists"
+        effect: "NoExecute"
+        tolerationSeconds: 120 
+      - key: "node.kubernetes.io/not-ready"
+        operator: "Exists"
+        effect: "NoExecute"
+        tolerationSeconds: 120 

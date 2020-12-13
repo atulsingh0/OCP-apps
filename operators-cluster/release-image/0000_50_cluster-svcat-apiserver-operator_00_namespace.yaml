@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+  name: openshift-service-catalog-removed
+  annotations:
+    openshift.io/node-selector: ""

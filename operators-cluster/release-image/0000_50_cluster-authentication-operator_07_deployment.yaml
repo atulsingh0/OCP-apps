@@ -1,0 +1,95 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: openshift-authentication-operator
+  name: authentication-operator
+  labels:
+    app: authentication-operator
+  annotations:
+    config.openshift.io/inject-proxy: operator
+    exclude.release.openshift.io/internal-openshift-hosted: "true"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: authentication-operator
+  template:
+    metadata:
+      name: authentication-operator
+      labels:
+        app: authentication-operator
+    spec:
+      serviceAccountName: authentication-operator
+      containers:
+      - name: operator
+        image: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:35ae19908254d645a2c5427a33d8965a245af6eb226cf727fb7a687521dcedce
+        imagePullPolicy: IfNotPresent
+        command: ["/bin/bash", "-ec"]
+        args:
+        - |
+          if [ -s /var/run/configmaps/trusted-ca-bundle/ca-bundle.crt ]; then
+              echo "Copying system trust bundle"
+              cp -f /var/run/configmaps/trusted-ca-bundle/ca-bundle.crt /etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem
+          fi
+          exec authentication-operator operator --config=/var/run/configmaps/config/operator-config.yaml --v=2 --terminate-on-files=/var/run/configmaps/trusted-ca-bundle/ca-bundle.crt
+        resources:
+          requests:
+            memory: 50Mi
+            cpu: 10m
+        securityContext:
+          readOnlyRootFilesystem: false # because of the `cp` in args
+        volumeMounts:
+        - mountPath: /var/run/configmaps/config
+          name: config
+        - mountPath: /var/run/secrets/serving-cert
+          name: serving-cert
+        - mountPath: /var/run/configmaps/trusted-ca-bundle
+          name: trusted-ca-bundle
+          readOnly: true
+        - mountPath: /var/run/configmaps/service-ca-bundle
+          name: service-ca-bundle
+          readOnly: true
+        env:
+        - name: IMAGE
+          value: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:7577edb08a2593e02799aea7e57b4e818640e071994bb0f068996f2656c90305
+        - name: OPERATOR_IMAGE_VERSION
+          value: "4.5.4"
+        - name: OPERAND_IMAGE_VERSION
+          value: "4.5.4_openshift"
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        terminationMessagePolicy: FallbackToLogsOnError
+      volumes:
+      - name: config
+        configMap:
+          defaultMode: 440
+          name: authentication-operator-config
+      - name: trusted-ca-bundle
+        configMap:
+          name: trusted-ca-bundle
+          optional: true
+      - name: serving-cert
+        secret:
+          secretName: serving-cert
+          optional: true
+      - name: service-ca-bundle
+        configMap:
+          name: service-ca-bundle
+          optional: true
+      nodeSelector:
+        node-role.kubernetes.io/master: ""
+      priorityClassName: "system-cluster-critical"
+      tolerations:
+      - key: "node-role.kubernetes.io/master"
+        operator: "Exists"
+        effect: "NoSchedule"
+      - key: "node.kubernetes.io/unreachable"
+        operator: "Exists"
+        effect: "NoExecute"
+        tolerationSeconds: 120 
+      - key: "node.kubernetes.io/not-ready"
+        operator: "Exists"
+        effect: "NoExecute"
+        tolerationSeconds: 120 

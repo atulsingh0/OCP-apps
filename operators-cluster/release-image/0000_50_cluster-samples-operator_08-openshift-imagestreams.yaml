@@ -1,0 +1,114 @@
+# The image streams in this file will be the canonical reference points
+# for consumers within the cluster to loosely reference these images.
+#
+kind: ImageStream
+apiVersion: image.openshift.io/v1
+metadata:
+  namespace: openshift
+  name: cli
+spec:
+  tags:
+  - name: latest
+    importPolicy:
+      scheduled: true
+    from:
+      kind: DockerImage
+      name: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:ddf1330bf78848849738ba17ae256ec2fb6d6ebe357f8857eefad913d4081eed
+---
+kind: ImageStream
+apiVersion: image.openshift.io/v1
+metadata:
+  namespace: openshift
+  name: cli-artifacts
+spec:
+  tags:
+  - name: latest
+    importPolicy:
+      scheduled: true
+    from:
+      kind: DockerImage
+      name: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:4aeb38435f3b3e32443e83a7dade87bc46e708396f4679e0f4982e74c3141ead
+---
+kind: ImageStream
+apiVersion: image.openshift.io/v1
+metadata:
+  namespace: openshift
+  name: installer
+spec:
+  tags:
+  - name: latest
+    importPolicy:
+      scheduled: true
+    from:
+      kind: DockerImage
+      name: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:6d71a2c911976c33255b57277d62a8dee2972c302315a87d1f9ab64884cbbb1b
+---
+kind: ImageStream
+apiVersion: image.openshift.io/v1
+metadata:
+  namespace: openshift
+  name: installer-artifacts
+spec:
+  tags:
+  - name: latest
+    importPolicy:
+      scheduled: true
+    from:
+      kind: DockerImage
+      name: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:517b82a8e24ec1fbec8ac095a8635e2e677b05dc05feee2bc309dd6dfddfcd27
+---
+kind: ImageStream
+apiVersion: image.openshift.io/v1
+metadata:
+  namespace: openshift
+  name: tests
+spec:
+  tags:
+  - name: latest
+    importPolicy:
+      scheduled: true
+    from:
+      kind: DockerImage
+      name: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:7245f0c0c5523386dbb824fe2dbc5029a844e1746f33a492b735010585c6b521
+---
+kind: ImageStream
+apiVersion: image.openshift.io/v1
+metadata:
+  namespace: openshift
+  name: tools
+spec:
+  tags:
+  - name: latest
+    importPolicy:
+      scheduled: true
+    from:
+      kind: DockerImage
+      name: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:a60f5a4429d512c7bc8e438ba949b54583d16147e23d30aef9aaa836efa76783
+---
+kind: ImageStream
+apiVersion: image.openshift.io/v1
+metadata:
+  namespace: openshift
+  name: must-gather
+spec:
+  tags:
+    - name: latest
+      importPolicy:
+        scheduled: true
+      from:
+        kind: DockerImage
+        name: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:6775f14fd3cd9d744cdee443ef38e5e38a483b8187ae4e6614ed0a8b5f0b9b7d
+---
+kind: ImageStream
+apiVersion: image.openshift.io/v1
+metadata:
+  namespace: openshift
+  name: oauth-proxy
+spec:
+  tags:
+    - name: v4.4
+      importPolicy:
+        scheduled: true
+      from:
+        kind: DockerImage
+        name: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:21c49efa4fd9a4c6747c32cc6b2b0f877694d3fa5b3d3f66230129e603b152f0

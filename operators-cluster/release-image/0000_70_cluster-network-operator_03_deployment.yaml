@@ -1,0 +1,88 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: network-operator
+  namespace: openshift-network-operator
+  labels:
+    name: network-operator
+spec:
+  selector:
+    matchLabels:
+      name: network-operator
+  template:
+    metadata:
+      labels:
+        name: network-operator
+    spec:
+      containers:
+      - name: network-operator
+        image: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:51008b58c807e3ad4f9608bbf74ea2394a6c05cebac95fb98fc6dac3ed9e5347
+        command:
+        - "/usr/bin/cluster-network-operator"
+        - "--url-only-kubeconfig=/etc/kubernetes/kubeconfig"
+        resources:
+          requests:
+            cpu: 10m
+            memory: 50Mi
+        env:
+        - name: RELEASE_VERSION
+          value: "4.5.4"
+        - name: SDN_IMAGE
+          value: "quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:e8b0ea7dac1433c9f7c31b27fe548cc4b8dd731ead0e5a8b12fca08ba79ccad0"
+        - name: KUBE_PROXY_IMAGE
+          value: "quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:3f601b7aa558ba2f872303f71371f5b8399d36e74225506c739e1914aa8000ed"
+        - name: KUBE_RBAC_PROXY_IMAGE
+          value: "quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:ad615288c896550a8fc5988424d7ec944e3c15dc22c94654efe0eba77cdfdff4"
+        - name: MULTUS_IMAGE
+          value: "quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:ee4a1a6b3d5629ac6f36f624668df90d92e6f7419a4bbf09550abee776fe4818"
+        - name: MULTUS_ADMISSION_CONTROLLER_IMAGE
+          value: "quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:b63367f06ef06b96231de40b8bce886f925078b1b0a624e0053de92472b928d1"
+        - name: CNI_PLUGINS_IMAGE
+          value: "quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:aba21f0cf0f8035ab6b786366df0422085d044ca27bae59e94cb19d64a955e5d"
+        - name: WHEREABOUTS_CNI_IMAGE
+          value: "quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:3afc303dc91949d801b0fd806f53889d3ecff2b43307d6c7ddf3783c810ca10f"
+        - name: ROUTE_OVERRRIDE_CNI_IMAGE
+          value: "quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:72f164b5b9363614e2106950a502bbbeddb91b4fb6b239561d1ee6fc0d4563de"
+        - name: OVN_IMAGE
+          value: "quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:22bdb69931d709f1dddfd135c544589f1a1350669cfbc73b420d8278532caca1"
+        - name: OVN_NB_RAFT_ELECTION_TIMER
+          value: "5000"
+        - name: OVN_SB_RAFT_ELECTION_TIMER
+          value: "5000"
+        - name: OVN_CONTROLLER_INACTIVITY_PROBE
+          value: "30000"
+        - name: KURYR_DAEMON_IMAGE
+          value: "quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:336671712000b7f6c051903ee224db55dd69d8021dcebc0776023af43cbfacca"
+        - name: KURYR_CONTROLLER_IMAGE
+          value: "quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:c0c4c05b854daa4b975e902ee552e83e08c827a24f2fda809896cfa2b6722c9a"
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        terminationMessagePolicy: FallbackToLogsOnError
+        volumeMounts:
+        - mountPath: /etc/kubernetes/kubeconfig
+          name: host-kubeconfig
+          readOnly: true
+      hostNetwork: true
+      nodeSelector:
+        node-role.kubernetes.io/master: ""
+      priorityClassName: "system-cluster-critical"
+      volumes:
+        - name: host-kubeconfig
+          hostPath:
+            path: /etc/kubernetes/kubeconfig
+      restartPolicy: Always
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65534
+      tolerations:
+      - key: "node-role.kubernetes.io/master"
+        operator: Exists
+        effect: NoSchedule
+      - key: "node.kubernetes.io/not-ready"
+        operator: Exists
+        effect: NoSchedule
+      - key: node.kubernetes.io/network-unavailable
+        operator: Exists
+        effect: NoSchedule

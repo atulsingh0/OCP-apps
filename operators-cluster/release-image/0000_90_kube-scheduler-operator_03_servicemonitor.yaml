@@ -1,0 +1,48 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: kube-scheduler-operator
+  namespace: openshift-kube-scheduler-operator
+  annotations:
+    exclude.release.openshift.io/internal-openshift-hosted: "true"
+spec:
+  endpoints:
+  - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+    interval: 30s
+    metricRelabelings:
+    - action: drop
+      regex: etcd_(debugging|disk|request|server).*
+      sourceLabels:
+      - __name__
+    port: https
+    scheme: https
+    tlsConfig:
+      caFile: /etc/prometheus/configmaps/serving-certs-ca-bundle/service-ca.crt
+      serverName: metrics.openshift-kube-scheduler-operator.svc
+  jobLabel: component
+  namespaceSelector:
+    matchNames:
+    - openshift-kube-scheduler-operator
+  selector:
+    matchLabels:
+      app: openshift-kube-scheduler-operator
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: kube-scheduler-operator
+  namespace: openshift-kube-scheduler-operator
+  annotations:
+    exclude.release.openshift.io/internal-openshift-hosted: "true"
+spec:
+  groups:
+  - name: cluster-version
+    rules:
+    - alert: KubeSchedulerDown
+      annotations:
+        message: KubeScheduler has disappeared from Prometheus target discovery.
+      expr: |
+        absent(up{job="scheduler"} == 1)
+      for: 15m
+      labels:
+        severity: critical

@@ -1,0 +1,17 @@
+{
+  "kind": "cincinnati-metadata-v0",
+  "version": "4.5.4",
+  "previous": [
+    "4.4.12",
+    "4.4.13",
+    "4.4.14",
+    "4.4.15",
+    "4.5.1",
+    "4.5.2",
+    "4.5.3"
+  ],
+  "metadata": {
+    "description": "",
+    "url": "https://access.redhat.com/errata/RHBA-2020:3028"
+  }
+}

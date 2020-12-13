@@ -1,0 +1,22 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: openshift-service-catalog-apiserver-remover
+  namespace: openshift-service-catalog-removed
+  annotations:
+    release.openshift.io/create-only: "true"
+spec:
+  template:
+    spec:
+      serviceAccountName: openshift-service-catalog-apiserver-remover
+      containers:
+      - name: openshift-service-catalog-apiserver-remover
+        securityContext: {}
+        # image will be some registry image
+        image: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:056fe99b1e35fa57273a223ece9c0cfa11eed70c1a1c566f3b1a0fb72c05a9f9
+        command: ["/usr/bin/cluster-svcat-apiserver-remover"]
+        resources:
+          requests:
+            memory: 50Mi
+      restartPolicy: Never
+  backoffLimit: 4

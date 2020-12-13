@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cluster-samples-operator
+  namespace: openshift-cluster-samples-operator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: cluster-samples-operator
+  template:
+    metadata:
+      labels:
+        name: cluster-samples-operator
+    spec:
+      serviceAccountName: cluster-samples-operator
+      shareProcessNamespace: true
+      nodeSelector:
+        node-role.kubernetes.io/master: ""
+      priorityClassName: "system-cluster-critical"
+      tolerations:
+      - key: node-role.kubernetes.io/master  # Just tolerate NoSchedule taint on master node. If there are other conditions like disk-pressure etc, let's not schedule the control-plane pods onto that node.
+        operator: Exists
+        effect: "NoSchedule"
+      - key: "node.kubernetes.io/unreachable"
+        operator: "Exists"
+        effect: "NoExecute"
+        tolerationSeconds: 120 # Evict pods within 2 mins.
+      - key: "node.kubernetes.io/not-ready"
+        operator: "Exists"
+        effect: "NoExecute"
+        tolerationSeconds: 120 # Evict pods within 2 mins.
+      volumes:
+      - name: samples-operator-tls
+        secret:
+          secretName: samples-operator-tls
+      containers:
+      - name: cluster-samples-operator
+        image: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:9e68ece7c410adb2aa0490c92696cd59e9e04a7becf0b78224655cf67528ee06
+        ports:
+        - containerPort: 60000
+          name: metrics
+        command:
+        - cluster-samples-operator
+        resources:
+          requests:
+            cpu: 10m
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+        - name: samples-operator-tls
+          mountPath: /etc/secrets
+        env:
+          - name: WATCH_NAMESPACE
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.namespace
+          - name: OPERATOR_NAME
+            value: cluster-samples-operator
+          - name: RELEASE_VERSION
+            value: "4.5.4"
+          - name: IMAGE_JENKINS
+            value: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:4db1b8d5fcee450710a80466f10f464c0bb3c1ac4c57e7bba5bc8c1d43261ce6
+          - name: IMAGE_AGENT_NODEJS
+            value: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:b1f6241e2e2a6086b4d49f94e02e3ec726885cc1e42112851aa5d3653ce54e11
+          - name: IMAGE_AGENT_MAVEN
+            value: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:a5a7a340bdb4926e768ac57313a6e9039a286fdb43f577ab476626a74792245f
+      - name: cluster-samples-operator-watch
+        image: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:9e68ece7c410adb2aa0490c92696cd59e9e04a7becf0b78224655cf67528ee06
+        command:
+        - cluster-samples-operator-watch
+        - file-watcher-watchdog
+        args:
+        - --namespace=openshift-cluster-samples-operator
+        - --process-name=cluster-samples-operator
+        - --termination-grace-period=30s
+        - --files=/etc/secrets/tls.crt,/etc/secrets/tls.key
+        imagePullPolicy: IfNotPresent
+        resources:
+          requests:
+            cpu: 10m
+

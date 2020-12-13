@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: machine-config-operator-images
+  namespace: openshift-machine-config-operator
+data:
+  images.json: >
+    {
+      "releaseVersion": "4.5.4",
+      "machineConfigOperator": "quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:b3a8e6a396a9f399ed2493fe5c65ec8e8aecd0f83d45f162de63aef9c2d88400",
+      "etcd": "quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:f7e17957cd2e2f8e932339a9fbf234215869b4093deab87ecbeb3eaa5ae5640e",
+      "infraImage": "quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:eb9ab6f21487d70c0fda256729adc82845aa3b68f9b84be18892d3096999d055",
+      "kubeClientAgentImage": "quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:1e7c134be071c7311a7d767945528a0764dc41bd0af0aef52bff6b6c2b2a8d9e",
+      "clusterEtcdOperatorImage": "quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:d7f75a2b2b25f42f7a5e4f6ffe56b10ec7e0892bf131d0f4059ca85ee12286bc",
+      "keepalivedImage": "quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:68e0f142dd75a61ed6a50b47fc0d92db3933a0945d59e21a39c4637108d09d0f",
+      "corednsImage": "quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:40ed5846180ae7b10550bb9a8f67c9eedd72a51a5a284898dd82ced7233626b3",
+      "mdnsPublisherImage": "quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:569f3c08d7555fa24575b1b6d1bfd050329dbcdbdaf2ca7343a4befb949c069a",
+      "haproxyImage": "quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:68c77de67660fdba8e6d6a6a9ae353575487f490d1836795bbae30c790f0a551",
+      "baremetalRuntimeCfgImage": "quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:bf9d32a430c181a53551ab5ede05e8be1770251e38bb72a42e56aadfc03ee767",
+      "oauthProxy": "quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:21c49efa4fd9a4c6747c32cc6b2b0f877694d3fa5b3d3f66230129e603b152f0"
+    }

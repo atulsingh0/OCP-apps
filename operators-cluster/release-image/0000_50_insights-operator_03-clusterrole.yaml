@@ -1,0 +1,219 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: insights-operator-auth
+roleRef:
+  kind: ClusterRole
+  name: system:auth-delegator
+subjects:
+- kind: ServiceAccount
+  namespace: openshift-insights
+  name: operator
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: insights-operator-auth
+  namespace: kube-system
+roleRef:
+  kind: Role
+  name: extension-apiserver-authentication-reader
+subjects:
+- kind: ServiceAccount
+  namespace: openshift-insights
+  name: operator
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: insights-operator
+rules:
+# allow the operator to update cluster operator status
+- apiGroups:
+  - config.openshift.io
+  resources:
+  - clusteroperators
+  resourceNames:
+  - insights
+  verbs:
+  - get
+  - watch
+- apiGroups:
+  - "config.openshift.io"
+  resources:
+  - clusteroperators
+  verbs:
+  - create
+- apiGroups:
+  - "config.openshift.io"
+  resources:
+  - clusteroperators/status
+  resourceNames:
+  - insights
+  verbs:
+  - get
+  - update
+  - patch
+# allow the operator to retrieve prometheus metrics
+- apiGroups:
+  - ""
+  resources:
+  - namespaces
+  verbs:
+  - get
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: insights-operator
+roleRef:
+  kind: ClusterRole
+  name: insights-operator
+subjects:
+- kind: ServiceAccount
+  namespace: openshift-insights
+  name: operator
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: insights-operator-gather
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - nodes
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+    - ""
+  resources:
+    - events
+  verbs:
+    - list
+- apiGroups:
+    - imageregistry.operator.openshift.io
+  resources:
+    - configs
+    - imagepruners
+  verbs:
+    - get
+    - list
+    - watch
+- apiGroups:
+  - ""
+  resources:
+  - nodes
+  verbs:
+  - proxy
+- apiGroups:
+  - ""
+  resources:
+  - nodes/log
+  - nodes/metrics
+  - nodes/proxy
+  - nodes/stats
+  verbs:
+  - get
+- apiGroups:
+  - config.openshift.io
+  resources:
+  - "*"
+  verbs:
+  - get
+  - list
+  - watch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: insights-operator-gather
+roleRef:
+  kind: ClusterRole
+  name: insights-operator-gather
+subjects:
+- kind: ServiceAccount
+  namespace: openshift-insights
+  name: gather
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: insights-operator-gather-reader
+roleRef:
+  kind: ClusterRole
+  name: cluster-reader
+subjects:
+- kind: ServiceAccount
+  namespace: openshift-insights
+  name: gather
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: insights-operator
+  namespace: openshift-config
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - secrets
+  resourceNames:
+  - pull-secret
+  - support
+  verbs:
+  - get
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: insights-operator
+  namespace: openshift-config
+roleRef:
+  kind: Role
+  name: insights-operator
+subjects:
+- kind: ServiceAccount
+  name: operator
+  namespace: openshift-insights
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: insights-operator
+  namespace: openshift-insights
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - serviceaccounts
+  resourceNames:
+  - gather
+  verbs:
+  - impersonate
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  verbs:
+  - get
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: insights-operator
+  namespace: openshift-insights
+roleRef:
+  kind: Role
+  name: insights-operator
+subjects:
+- kind: ServiceAccount
+  name: operator
+  namespace: openshift-insights

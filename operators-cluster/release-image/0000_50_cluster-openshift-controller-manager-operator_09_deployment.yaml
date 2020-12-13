@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: openshift-controller-manager-operator
+  name: openshift-controller-manager-operator
+  labels:
+    app: openshift-controller-manager-operator
+  annotations:
+    exclude.release.openshift.io/internal-openshift-hosted: "true"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: openshift-controller-manager-operator
+  template:
+    metadata:
+      name: openshift-controller-manager-operator
+      labels:
+        app: openshift-controller-manager-operator
+    spec:
+      serviceAccountName: openshift-controller-manager-operator
+      containers:
+      - name: operator
+        image: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:37632a675d64fab92ab9dea5f324fcc4cb0a0e27c120b17ca3b82a4a1d0a22a7
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8443
+          name: metrics
+          protocol: TCP
+        command: ["cluster-openshift-controller-manager-operator", "operator"]
+        args:
+        - "--config=/var/run/configmaps/config/config.yaml"
+        - "-v=4"
+        resources:
+          requests:
+            memory: 50Mi
+            cpu: 10m
+        volumeMounts:
+        - mountPath: /var/run/configmaps/config
+          name: config
+        - mountPath: /var/run/secrets/serving-cert
+          name: serving-cert
+        env:
+        - name: RELEASE_VERSION
+          value: "4.5.4"
+        - name: IMAGE
+          value: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:ddc464931db5037b27a2301e70cb341fa5aa78d4c49fd6c19dc1994092f175f0
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        terminationMessagePolicy: FallbackToLogsOnError
+      volumes:
+      - name: serving-cert
+        secret:
+          defaultMode: 400
+          secretName: openshift-controller-manager-operator-serving-cert
+          optional: true
+      - name: config
+        configMap:
+          defaultMode: 440
+          name: openshift-controller-manager-operator-config
+      nodeSelector:
+        node-role.kubernetes.io/master: ""
+      priorityClassName: "system-cluster-critical"
+      tolerations:
+      - key: node-role.kubernetes.io/master  
+        operator: Exists
+        effect: "NoSchedule"
+      - key: "node.kubernetes.io/unreachable"
+        operator: "Exists"
+        effect: "NoExecute"
+        tolerationSeconds: 120 
+      - key: "node.kubernetes.io/not-ready"
+        operator: "Exists"
+        effect: "NoExecute"
+        tolerationSeconds: 120

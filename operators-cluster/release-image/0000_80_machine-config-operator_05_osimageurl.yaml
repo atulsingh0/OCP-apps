@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: machine-config-osimageurl
+  namespace: openshift-machine-config-operator
+data:
+  releaseVersion: 4.5.4
+  # The OS payload, managed by the daemon + pivot + rpm-ostree
+  # https://github.com/openshift/machine-config-operator/issues/183
+  osImageURL: "quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:77e9ace116cec652637a79449dea00c6b4af5463ca2474463549cf145bc44438"

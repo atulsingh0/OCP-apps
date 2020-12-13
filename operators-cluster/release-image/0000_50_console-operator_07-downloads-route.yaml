@@ -1,0 +1,15 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  namespace: openshift-console
+  name: downloads
+spec:
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+  port:
+    targetPort: http
+  to:
+    kind: Service
+    name: downloads
+  wildcardPolicy: None

@@ -1,0 +1,96 @@
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: console-operator
+  namespace: openshift-console
+roleRef:
+  kind: Role
+  name: console-operator
+  apiGroup: rbac.authorization.k8s.io
+subjects:
+- kind: ServiceAccount
+  name: console-operator
+  namespace: openshift-console-operator
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: console-operator
+  namespace: openshift-console-operator
+roleRef:
+  kind: Role
+  name: console-operator
+  apiGroup: rbac.authorization.k8s.io
+subjects:
+- kind: ServiceAccount
+  name: console-operator
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: console-operator
+  namespace: openshift-config-managed
+roleRef:
+  kind: Role
+  name: console-operator
+  apiGroup: rbac.authorization.k8s.io
+subjects:
+  - kind: ServiceAccount
+    name: console-operator
+    namespace: openshift-console-operator
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: console-public
+  namespace: openshift-config-managed
+roleRef:
+  kind: Role
+  name: console-public
+  apiGroup: rbac.authorization.k8s.io
+subjects:
+  - kind: Group
+    name: system:authenticated
+    apiGroup: rbac.authorization.k8s.io
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: console-operator
+  namespace: openshift-config
+roleRef:
+  kind: Role
+  name: console-operator
+  apiGroup: rbac.authorization.k8s.io
+subjects:
+  - kind: ServiceAccount
+    name: console-operator
+    namespace: openshift-console-operator
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: console-operator
+  namespace: kube-system
+roleRef:
+  kind: Role
+  name: extension-apiserver-authentication-reader
+  apiGroup: rbac.authorization.k8s.io
+subjects:
+  - kind: ServiceAccount
+    name: console-operator
+    namespace: openshift-console-operator
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: console-configmap-reader
+  namespace: openshift-config-managed
+roleRef:
+  kind: Role
+  name: console-configmap-reader
+  apiGroup: rbac.authorization.k8s.io
+subjects:
+  - kind: ServiceAccount
+    name: console
+    namespace: openshift-console

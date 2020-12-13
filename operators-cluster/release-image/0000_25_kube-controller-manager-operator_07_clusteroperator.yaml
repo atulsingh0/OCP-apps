@@ -1,0 +1,31 @@
+apiVersion: config.openshift.io/v1
+kind: ClusterOperator
+metadata:
+  name: kube-controller-manager
+  annotations:
+    exclude.release.openshift.io/internal-openshift-hosted: "true"
+spec: {}
+status:
+  versions:
+    - name: operator
+      version: "4.5.4"
+    - name: raw-internal
+      version: "4.5.4"
+    - name: kube-controller-manager
+      version: "1.18.3"
+  relatedObjects:
+    - group: operator.openshift.io
+      name: cluster
+      resource: kubecontrollermanagers
+    - group: ""
+      name: openshift-config
+      resource: namespaces
+    - group: ""
+      name: openshift-config-managed
+      resource: namespaces
+    - group: ""
+      name: openshift-kube-controller-manager
+      resource: namespaces
+    - group: ""
+      name: openshift-kube-controller-manager-operator
+      resource: namespaces
