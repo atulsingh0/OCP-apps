@@ -1,0 +1,266 @@
+Script started on 2020-12-12 21:36:28-05:00
+]777;notify;Command completed;curl  hello-automation-ansible.apps.ocp4.example.com]0;student@workstation:~/DO380-apps/operators-install]7;file://workstation.lab.example.com/home/student/DO380-apps/operators-install[student@workstation operators-install]$ lab operators-install start
+
+Checking prerequisites for Guided Exercise: Installing Operators
+
+ Verify the OpenShift cluster is running:
+ · Router pods are available...................................  [1;36mSUCCESS[0;39m
+ · OAuth pods are available....................................  [1;36mSUCCESS[0;39m
+ · API pods are available......................................  [1;36mSUCCESS[0;39m
+ · Control plane node 'master01' is ready......................  [1;36mSUCCESS[0;39m
+ · Control plane node 'master02' is ready......................  [1;36mSUCCESS[0;39m
+ · Control plane node 'master03' is ready......................  [1;36mSUCCESS[0;39m
+
+ Checking for conflicts with existing OpenShift projects:
+ · The 'openshift-metering' project is absent..................  [1;36mSUCCESS[0;39m
+ · Group openshift-metering absent.............................  [1;36mSUCCESS[0;39m
+ · Subscription ge-openshift-metering absent...................  [1;36mSUCCESS[0;39m
+
+Setting up the classroom for Guided Exercise: Installing Operators
+
+
+ Preparing the student's cluster:
+
+Overall start status...........................................  [1;36mSUCCESS[0;39m
+
+]777;notify;Command completed;lab operators-install start]0;student@workstation:~/DO380-apps/operators-install]7;file://workstation.lab.example.com/home/student/DO380-apps/operators-install[student@workstation operators-install]$ oc login -u admin -p redhat https://api.ocp4.example.com:64 43
+
+Login successful.
+
+You have access to 58 projects, the list has been suppressed. You can list all projects with 'oc projects'
+
+Using project "default".
+]777;notify;Command completed;oc login -u admin -p redhat https://api.ocp4.example.com:6443]0;student@workstation:~/DO380-apps/operators-install]7;file://workstation.lab.example.com/home/student/DO380-apps/operators-install[student@workstation operators-install]$ 
+]777;notify;Command completed;oc login -u admin -p redhat https://api.ocp4.example.com:6443]0;student@workstation:~/DO380-apps/operators-install]7;file://workstation.lab.example.com/home/student/DO380-apps/operators-install[student@workstation operators-install]$ cat>metering-operator-namespace.yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    openshift.io/cluster-monitoring: "true"
+  name: openshift-metering
+]777;notify;Command completed;cat>metering-operator-namespace.yaml]0;student@workstation:~/DO380-apps/operators-install]7;file://workstation.lab.example.com/home/student/DO380-apps/operators-install[student@workstation operators-install]$ oc apply -f metering-operator-namespace.yaml
+namespace/openshift-metering created
+]777;notify;Command completed;oc apply -f metering-operator-namespace.yaml]0;student@workstation:~/DO380-apps/operators-install]7;file://workstation.lab.example.com/home/student/DO380-apps/operators-install[student@workstation operators-install]$ oc pr[Kroject metering-operator-namespace.yaml [K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K
+error: A project named "metering-operator" does not exist on "https://api.ocp4.example.com:6443".
+Your projects are:
+* default
+* kube-node-lease
+* kube-public
+* kube-system
+* NFS Provisioner (nfs-client-provisioner)
+* openshift
+* openshift-apiserver
+* openshift-apiserver-operator
+* openshift-authentication
+* openshift-authentication-operator
+* openshift-cloud-credential-operator
+* openshift-cluster-machine-approver
+* openshift-cluster-node-tuning-operator
+* openshift-cluster-samples-operator
+* openshift-cluster-storage-operator
+* openshift-cluster-version
+* openshift-config
+* openshift-config-managed
+* openshift-config-operator
+* openshift-console
+* openshift-console-operator
+* openshift-controller-manager
+* openshift-controller-manager-operator
+* openshift-dns
+* openshift-dns-operator
+* openshift-etcd
+* openshift-etcd-operator
+* openshift-image-registry
+* openshift-infra
+* openshift-ingress
+* openshift-ingress-operator
+* openshift-insights
+* openshift-kni-infra
+* openshift-kube-apiserver
+* openshift-kube-apiserver-operator
+* openshift-kube-controller-manager
+* openshift-kube-controller-manager-operator
+* openshift-kube-scheduler
+* openshift-kube-scheduler-operator
+* openshift-kube-storage-version-migrator
+* openshift-kube-storage-version-migrator-operator
+* openshift-machine-api
+* openshift-machine-config-operator
+* openshift-marketplace
+* openshift-metering
+* openshift-monitoring
+* openshift-multus
+* openshift-network-operator
+* openshift-node
+* openshift-openstack-infra
+* openshift-operator-lifecycle-manager
+* openshift-operators
+* openshift-ovirt-infra
+* openshift-sdn
+* openshift-service-ca
+* openshift-service-ca-operator
+* openshift-service-catalog-removed
+* openshift-user-workload-monitoring
+* openshift-vsphere-infra
+]777;notify;Command completed;oc project metering-operator]0;student@workstation:~/DO380-apps/operators-install]7;file://workstation.lab.example.com/home/student/DO380-apps/operators-install[student@workstation operators-install]$ oc project metering-operatorapply -f metering-operator-namespace.yaml[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[8Pcat>metering-operator-namespace.yaml[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[Koc login -u admin -p redhat https://api.ocp4.example.com:64443[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Ccat>metering-[K
+[K[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Coc apply -f metering-operator-namespace.yaml[16Pproject metering-operator[Koc project metering-operator[K[K[K[K[K[K[K[K[Kometeringpmeteringemeteringnmeteringsmeteringhmeteringimeteringfmeteringtmetering-metering
+Now using project "openshift-metering" on server "https://api.ocp4.example.com:6443".
+]777;notify;Command completed;oc project openshift-metering]0;student@workstation:~/DO380-apps/operators-install]7;file://workstation.lab.example.com/home/student/DO380-apps/operators-install[student@workstation operators-install]$ clear
+[3J[H[2J]777;notify;Command completed;clear]0;student@workstation:~/DO380-apps/operators-install]7;file://workstation.lab.example.com/home/student/DO380-apps/operators-install[student@workstation operators-install]$ cat>metering-operator-group.yaml
+apiVersion: operators.coreos.com/v1
+kind: OperatorGroup
+metadata:
+  name: openshift-metering
+  namespace: openshift-metering
+spec:
+  targetNamespaces:
+  - openshift-metering
+]777;notify;Command completed;cat>metering-operator-group.yaml]0;student@workstation:~/DO380-apps/operators-install]7;file://workstation.lab.example.com/home/student/DO380-apps/operators-install[student@workstation operators-install]$ oc p[Kapply -f metering-operator-
+metering-operator-group.yaml      metering-operator-namespace.yaml
+[student@workstation operators-install]$ oc apply -f metering-operator-group.yaml 
+operatorgroup.operators.coreos.com/openshift-metering created
+]777;notify;Command completed;oc apply -f metering-operator-group.yaml ]0;student@workstation:~/DO380-apps/operators-install]7;file://workstation.lab.example.com/home/student/DO380-apps/operators-install[student@workstation operators-install]$ cat<>[K[K>metering-operator-subscription.yaml
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: ge-openshift-metering
+  namespace: openshift-metering
+spec:
+  channel: "4.5"
+  name: metering-ocp
+  source: redhat-operators
+  sourceNamespace: openshift-marketplace
+]777;notify;Command completed;cat>metering-operator-subscription.yaml]0;student@workstation:~/DO380-apps/operators-install]7;file://workstation.lab.example.com/home/student/DO380-apps/operators-install[student@workstation operators-install]$ cat>metering-operator-subscription.yamloc apply -f metering-operator-group.yaml [K[K[K[K[K[K[K[K[K[K[Ksubscription.yaml 
+subscription.operators.coreos.com/ge-openshift-metering created
+]777;notify;Command completed;oc apply -f metering-operator-subscription.yaml ]0;student@workstation:~/DO380-apps/operators-install]7;file://workstation.lab.example.com/home/student/DO380-apps/operators-install[student@workstation operators-install]$ oc describe sub ge-openshift-metering
+Name:         ge-openshift-metering
+Namespace:    openshift-metering
+Labels:       <none>
+Annotations:  API Version:  operators.coreos.com/v1alpha1
+Kind:         Subscription
+Metadata:
+  Creation Timestamp:  2020-12-13T02:39:42Z
+  Generation:          1
+  Managed Fields:
+    API Version:  operators.coreos.com/v1alpha1
+    Fields Type:  FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:annotations:
+          .:
+          f:kubectl.kubernetes.io/last-applied-configuration:
+      f:spec:
+        .:
+        f:channel:
+        f:name:
+        f:source:
+        f:sourceNamespace:
+    Manager:      oc
+    Operation:    Update
+    Time:         2020-12-13T02:39:42Z
+    API Version:  operators.coreos.com/v1alpha1
+    Fields Type:  FieldsV1
+    fieldsV1:
+      f:spec:
+        f:config:
+          .:
+          f:resources:
+      f:status:
+        .:
+        f:catalogHealth:
+        f:conditions:
+        f:currentCSV:
+        f:installPlanGeneration:
+        f:installPlanRef:
+          .:
+          f:apiVersion:
+          f:kind:
+          f:name:
+          f:namespace:
+          f:resourceVersion:
+          f:uid:
+        f:installedCSV:
+        f:installplan:
+          .:
+          f:apiVersion:
+          f:kind:
+          f:name:
+          f:uuid:
+        f:lastUpdated:
+        f:state:
+    Manager:         catalog
+    Operation:       Update
+    Time:            2020-12-13T02:39:48Z
+  Resource Version:  90612
+  Self Link:         /apis/operators.coreos.com/v1alpha1/namespaces/openshift-metering/subscriptions/ge-openshift-metering
+  UID:               48551948-0caf-451f-825f-c3fc00dcbd5b
+Spec:
+  Channel:           4.5
+  Name:              metering-ocp
+  Source:            redhat-operators
+  Source Namespace:  openshift-marketplace
+Status:
+  Catalog Health:
+    Catalog Source Ref:
+      API Version:       operators.coreos.com/v1alpha1
+      Kind:              CatalogSource
+      Name:              certified-operators
+      Namespace:         openshift-marketplace
+      Resource Version:  85224
+      UID:               5729a138-72ad-424e-bce7-ec999f535bc7
+    Healthy:             true
+    Last Updated:        2020-12-13T02:39:44Z
+    Catalog Source Ref:
+      API Version:       operators.coreos.com/v1alpha1
+      Kind:              CatalogSource
+      Name:              community-operators
+      Namespace:         openshift-marketplace
+      Resource Version:  80903
+      UID:               ab8492ac-bf0c-4b5b-9507-bb181b3efda4
+    Healthy:             true
+    Last Updated:        2020-12-13T02:39:44Z
+    Catalog Source Ref:
+      API Version:       operators.coreos.com/v1alpha1
+      Kind:              CatalogSource
+      Name:              redhat-marketplace
+      Namespace:         openshift-marketplace
+      Resource Version:  85223
+      UID:               e3793a7b-8fa7-4aa0-a9e5-d89856a47eac
+    Healthy:             true
+    Last Updated:        2020-12-13T02:39:44Z
+    Catalog Source Ref:
+      API Version:       operators.coreos.com/v1alpha1
+      Kind:              CatalogSource
+      Name:              redhat-operators
+      Namespace:         openshift-marketplace
+      Resource Version:  85225
+      UID:               3476ee76-3f6d-4223-a9f3-1fbebf6dfce2
+    Healthy:             true
+    Last Updated:        2020-12-13T02:39:44Z
+  Conditions:
+    Last Transition Time:   2020-12-13T02:39:44Z
+    Message:                all available catalogsources are healthy
+    Reason:                 AllCatalogSourcesHealthy
+    Status:                 False
+    Type:                   CatalogSourcesUnhealthy
+  Current CSV:              metering-operator.4.5.0-202011280252.p0
+  Install Plan Generation:  1
+  Install Plan Ref:
+    API Version:       operators.coreos.com/v1alpha1
+    Kind:              InstallPlan
+    Name:              install-d7ssl
+    Namespace:         openshift-metering
+    Resource Version:  90482
+    UID:               76ba7350-710a-4971-9617-69f8be874e42
+  Installed CSV:       metering-operator.4.5.0-202011280252.p0
+  Installplan:
+    API Version:  operators.coreos.com/v1alpha1
+    Kind:         InstallPlan
+    Name:         install-d7ssl
+    Uuid:         76ba7350-710a-4971-9617-69f8be874e42
+  Last Updated:   2020-12-13T02:39:47Z
+  State:          AtLatestKnown
+Events:           <none>
+]777;notify;Command completed;oc describe sub ge-openshift-metering]0;student@workstation:~/DO380-apps/operators-install]7;file://workstation.lab.example.com/home/student/DO380-apps/operators-install[student@workstation operators-install]$ exit
+
+Script done on 2020-12-12 21:39:53-05:00
