@@ -1,5 +1,5 @@
 mkdir $1; cd $1
-lab $1 start
+lab $1 start && sleep 5
 cp -R ../../DO380/* .
 ls -lr *
 cd ..
